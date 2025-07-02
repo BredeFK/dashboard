@@ -8,3 +8,6 @@ app:
 location-forecast:
   base-url: https://api.met.no/weatherapi/locationforecast/2.0
   user-agent: ${spring.application.name}/${app.version} github.com/BredeFK/weatherApp
+
+nominatim:
+  base-url: https://nominatim.openstreetmap.org

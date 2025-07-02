@@ -4,6 +4,8 @@ A Kotlin-based Spring Boot weather application using
 the [MET Locationforecast API](https://api.met.no/weatherapi/locationforecast/2.0/documentation), which
 powers [YR](https://developer.yr.no/doc/GettingStarted/).
 
+And also [Nominatim API](https://nominatim.openstreetmap.org/ui/about.html) to get coordinates
+
 ---
 
 ## 🔗 Useful Links
@@ -19,6 +21,7 @@ powers [YR](https://developer.yr.no/doc/GettingStarted/).
 - Spring Boot 3.5.3
 - Java 21
 - MET Weather API (`locationforecast/2.0`)
+- Nominatim API (`Nominatim/5.1+`)
 
 ---
 

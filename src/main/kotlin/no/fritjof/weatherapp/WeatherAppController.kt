@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 
 @Tag(name = "Weather Controller")
 @Controller
-@RequestMapping("/api")
+@RequestMapping("/api/weather")
 class WeatherAppController(
     private val locationForecastService: LocationForecastService
 ) {
