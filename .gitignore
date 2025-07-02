@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Other files ###
+example_response.json
