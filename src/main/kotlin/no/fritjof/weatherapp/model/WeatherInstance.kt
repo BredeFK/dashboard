@@ -9,6 +9,7 @@ data class WeatherInstance(
     val humidity: Double,
     val windSpeed: Double,
     val symbolCode: String?,
+    val symbolUrl: String?,
     val precipitationAmount: Double?
 ) {
     companion object {
@@ -21,6 +22,7 @@ data class WeatherInstance(
                 humidity = details.relativeHumidity,
                 windSpeed = details.windSpeed,
                 symbolCode = nextOneHours?.summary?.symbolCode,
+                symbolUrl = if (nextOneHours != null) "https://api.met.no/images/weathericons/svg/${nextOneHours.summary.symbolCode}.svg" else null,
                 precipitationAmount = nextOneHours?.details?.precipitationAmount
             )
         }
