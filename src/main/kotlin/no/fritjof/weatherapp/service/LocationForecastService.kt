@@ -17,10 +17,10 @@ class LocationForecastService(@Qualifier("locationForecastWebClient") private va
 
     private val log: Logger = LoggerFactory.getLogger(javaClass)
 
-    private fun getCompact(latitude: Double, longitude: Double): LocationForecastDto? {
+    private fun getComplete(latitude: Double, longitude: Double): LocationForecastDto? {
         return webClient.get()
             .uri {
-                it.path("/compact")
+                it.path("/complete")
                     .queryParam("lat", latitude)
                     .queryParam("lon", longitude)
                     .build()
@@ -31,7 +31,7 @@ class LocationForecastService(@Qualifier("locationForecastWebClient") private va
     }
 
     fun getWeatherForecast(latitude: Double, longitude: Double): WeatherForecast {
-        val properties = getCompact(latitude, longitude)?.properties
+        val properties = getComplete(latitude, longitude)?.properties
         val weatherSeries: List<WeatherInstance>? = properties?.timeSeries?.map {
             WeatherInstance.toWeatherInstance(it, toLocalDateTime(it.time))
         }

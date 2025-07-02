@@ -67,6 +67,9 @@ data class DetailsDto(
     val windFromDirection: Double,
 
     @JsonProperty("wind_speed")
-    val windSpeed: Double
+    val windSpeed: Double,
+
+    @JsonProperty("ultraviolet_index_clear_sky")
+    val uvIndexClearSky: Double
 
 )
