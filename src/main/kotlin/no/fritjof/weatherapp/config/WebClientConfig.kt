@@ -12,9 +12,10 @@ import reactor.core.publisher.Mono
 
 @Configuration
 class WebClientConfig(
-    @param:Value($$"${location-forecast.base-url}") private val locationForecastBaseUrl: String,
-    @param:Value($$"${location-forecast.user-agent}") private val userAgent: String,
-    @param:Value($$"${nominatim.base-url}") private val nominatimUrl: String,
+    @Value($$"${location-forecast.base-url}") private val locationForecastBaseUrl: String,
+    @Value($$"${location-forecast.user-agent}") private val userAgent: String,
+    @Value($$"${nominatim.base-url}") private val nominatimUrl: String,
+    @Value($$"${strava.base-url}") private val stravaUrl: String
 ) {
 
     private val log: Logger = LoggerFactory.getLogger(javaClass)
@@ -38,13 +39,34 @@ class WebClientConfig(
             .build()
     }
 
+    @Bean
+    fun stravaWebClient(): WebClient {
+        return WebClient.builder()
+            .filter(requestLoggerFilter())
+            .filter(responseLoggerFilter())
+            .baseUrl(stravaUrl)
+            .build()
+    }
+
     private fun requestLoggerFilter() = ExchangeFilterFunction.ofRequestProcessor {
-        log.info("${it.method()} ${it.url()}")
+        if (stravaUrl.contains(it.url().host) && it.url().path.contains("token")) {
+            log.info("${it.method()} ${it.url().toString().split("?")[0]}")
+        } else {
+            log.info("${it.method()} ${it.url()}")
+        }
         Mono.just(it)
     }
 
     private fun responseLoggerFilter() = ExchangeFilterFunction.ofResponseProcessor {
-        log.info("${it.request().method} ${it.request().uri} [${it.statusCode().value()}]" )
+        val uri = it.request().uri
+        if (stravaUrl.contains(uri.host) && uri.path.contains("token")) {
+            log.info(
+                "${it.request().method} " +
+                        "${it.request().uri.toString().split("?")[0]} [${it.statusCode().value()}]"
+            )
+        } else {
+            log.info("${it.request().method} ${it.request().uri} [${it.statusCode().value()}]")
+        }
         Mono.just(it)
     }
 }

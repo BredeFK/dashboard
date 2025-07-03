@@ -34,3 +34,4 @@ build/
 
 ### Other files ###
 example_response.json
+.env

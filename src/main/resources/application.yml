@@ -11,3 +11,9 @@ location-forecast:
 
 nominatim:
   base-url: https://nominatim.openstreetmap.org
+
+strava:
+  base-url: https://www.strava.com/api/v3
+  client-id: ${STRAVA_CLIENT_ID}
+  client-secret: ${STRAVA_CLIENT_SECRET}
+  refresh-token: ${STRAVA_REFRESH_TOKEN}

@@ -1,7 +1,13 @@
 <component name="ProjectRunConfigurationManager">
     <configuration default="false" name="main-prod" type="SpringBootApplicationConfigurationType"
                    factoryName="Spring Boot">
+        <option name="envFilePaths">
+            <option value="$PROJECT_DIR$/.env"/>
+        </option>
         <module name="weatherApp"/>
+        <selectedOptions>
+            <option name="environmentVariables"/>
+        </selectedOptions>
         <option name="SPRING_BOOT_MAIN_CLASS" value="no.fritjof.weatherapp.WeatherAppApplication"/>
         <extension name="net.ashald.envfile">
             <option name="IS_ENABLED" value="false"/>
