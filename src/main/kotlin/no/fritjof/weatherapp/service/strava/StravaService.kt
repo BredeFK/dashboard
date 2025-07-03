@@ -7,8 +7,10 @@ import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.ParameterizedTypeReference
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.WebClient
+import org.springframework.web.reactive.function.client.WebClientResponseException
 
 @Service
 class StravaService(
@@ -16,14 +18,21 @@ class StravaService(
     @Value($$"${strava.client-id}") private val stravaClientId: String,
     @Value($$"${strava.client-secret}") private val stravaClientSecret: String,
     @Value($$"${strava.refresh-token}") private val stravaRefreshToken: String,
-    private val tokenStore: StravaTokenStore
+    private val stravaTokenService: StravaTokenStore
 ) {
 
     private val logger: Logger = LoggerFactory.getLogger(javaClass)
 
     private fun getAuthToken(): String {
 
-        val refreshToken = tokenStore.get()?.refreshToken ?: stravaRefreshToken
+        val tokenStore = stravaTokenService.get()
+        if (tokenStore != null && !tokenStore.hasExpired()) {
+            logger.info("Token has not expired")
+            return tokenStore.accessToken
+        }
+
+        val refreshToken = tokenStore?.refreshToken ?: stravaRefreshToken
+        logger.info("Token has expired. Fetching a new one using refreshToken")
 
         // TODO : Fix this
         val response = webClient.post()
@@ -43,7 +52,8 @@ class StravaService(
             .block()
 
         if (response?.accessToken != null) {
-            tokenStore.save(response)
+            stravaTokenService.save(response)
+            logger.info("Strava token updated")
             return response.accessToken
         }
 
@@ -64,6 +74,13 @@ class StravaService(
             .header("Authorization", "Bearer $token")
             .retrieve()
             .bodyToMono(object : ParameterizedTypeReference<List<StravaActivityDto>>() {})
+            .doOnError {
+                if (it is WebClientResponseException && it.statusCode == HttpStatus.valueOf(429)) {
+                    logger.error("Reached limit of requests: ${it.message}")
+                } else {
+                    logger.error("Error while fetching strava activities: ${it.message}", it.cause)
+                }
+            }
             .block()
     }
 
