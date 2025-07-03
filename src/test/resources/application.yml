@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: weatherApp
+
+app:
+  version: 1
+
+location-forecast:
+  base-url: mock
+  user-agent: mock
+
+nominatim:
+  base-url: mock
+
+strava:
+  base-url: mock
+  client-id: mock
+  client-secret: mock
+  refresh-token: mock
