@@ -11,6 +11,12 @@ import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.WebClientResponseException
+import java.time.DayOfWeek
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.temporal.TemporalAdjusters
+import java.util.TimeZone
 
 @Service
 class StravaService(
@@ -18,13 +24,13 @@ class StravaService(
     @Value($$"${strava.client-id}") private val stravaClientId: String,
     @Value($$"${strava.client-secret}") private val stravaClientSecret: String,
     @Value($$"${strava.refresh-token}") private val stravaRefreshToken: String,
+    @Value($$"${strava.club-id}") private val clubId: String,
     private val stravaTokenService: StravaTokenStore
 ) {
 
     private val logger: Logger = LoggerFactory.getLogger(javaClass)
 
     private fun getAuthToken(): String {
-
         val tokenStore = stravaTokenService.get()
         if (tokenStore != null && !tokenStore.hasExpired()) {
             logger.info("Token has not expired")
@@ -34,7 +40,6 @@ class StravaService(
         val refreshToken = tokenStore?.refreshToken ?: stravaRefreshToken
         logger.info("Token has expired. Fetching a new one using refreshToken")
 
-        // TODO : Fix this
         val response = webClient.post()
             .uri {
                 it.path("/oauth/token")
@@ -61,13 +66,13 @@ class StravaService(
     }
 
     private fun getActivities(): List<StravaActivityDto>? {
-        val clubId = 1248911
         val token = getAuthToken()
+        val thisWeeksMonday = getThisWeeksMondayInEpoch()
 
         return webClient.get()
             .uri {
                 it.path("/clubs/$clubId/activities")
-                    .queryParam("after", "1751241600")
+                    .queryParam("after", thisWeeksMonday)
                     .queryParam("sport_type", "Run")
                     .build()
             }
@@ -82,6 +87,17 @@ class StravaService(
                 }
             }
             .block()
+    }
+
+    private fun getThisWeeksMondayInEpoch(): Long {
+        val timeZoneId = TimeZone.getTimeZone("ECT").toZoneId()
+        return LocalDate
+            .now(timeZoneId)
+            .with(
+                TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY)
+            )
+            .atStartOfDay(timeZoneId)
+            .toEpochSecond()
     }
 
     fun getScoreBoard(): List<Athlete> {
@@ -110,6 +126,4 @@ class StravaService(
 
         return sortedAthletes
     }
-
-
 }

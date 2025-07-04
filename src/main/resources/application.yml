@@ -14,6 +14,7 @@ nominatim:
 
 strava:
   base-url: https://www.strava.com/api/v3
+  club-id: 1248911
   client-id: ${STRAVA_CLIENT_ID}
   client-secret: ${STRAVA_CLIENT_SECRET}
   refresh-token: ${STRAVA_REFRESH_TOKEN}
