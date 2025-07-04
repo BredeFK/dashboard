@@ -1,7 +1,7 @@
-package no.fritjof.weatherapp.service.strava
+package no.fritjof.dashboard.service.strava
 
-import no.fritjof.weatherapp.dto.StravaActivityDto
-import no.fritjof.weatherapp.model.Athlete
+import no.fritjof.dashboard.dto.StravaActivityDto
+import no.fritjof.dashboard.model.Athlete
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Qualifier

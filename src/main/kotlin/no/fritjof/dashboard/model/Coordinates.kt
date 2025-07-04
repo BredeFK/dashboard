@@ -1,6 +1,6 @@
-package no.fritjof.weatherapp.model
+package no.fritjof.dashboard.model
 
-import no.fritjof.weatherapp.dto.NominatimDto
+import no.fritjof.dashboard.dto.NominatimDto
 
 data class Coordinates(
 

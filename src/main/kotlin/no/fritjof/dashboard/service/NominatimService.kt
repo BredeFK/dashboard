@@ -1,7 +1,7 @@
-package no.fritjof.weatherapp.service
+package no.fritjof.dashboard.service
 
-import no.fritjof.weatherapp.dto.NominatimDto
-import no.fritjof.weatherapp.model.Coordinates
+import no.fritjof.dashboard.dto.NominatimDto
+import no.fritjof.dashboard.model.Coordinates
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Qualifier

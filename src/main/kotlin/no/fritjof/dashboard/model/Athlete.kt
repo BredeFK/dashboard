@@ -1,4 +1,4 @@
-package no.fritjof.weatherapp.model
+package no.fritjof.dashboard.model
 
 data class Athlete(
     val fullName: String,

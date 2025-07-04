@@ -1,6 +1,6 @@
-package no.fritjof.weatherapp.model
+package no.fritjof.dashboard.model
 
-import no.fritjof.weatherapp.dto.TimeInstanceDto
+import no.fritjof.dashboard.dto.TimeInstanceDto
 import java.time.LocalDateTime
 
 data class WeatherInstance(

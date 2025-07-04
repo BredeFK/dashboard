@@ -1,8 +1,8 @@
-package no.fritjof.weatherapp.service
+package no.fritjof.dashboard.service
 
-import no.fritjof.weatherapp.dto.LocationForecastDto
-import no.fritjof.weatherapp.model.WeatherForecast
-import no.fritjof.weatherapp.model.WeatherInstance
+import no.fritjof.dashboard.dto.LocationForecastDto
+import no.fritjof.dashboard.model.WeatherForecast
+import no.fritjof.dashboard.model.WeatherInstance
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Qualifier

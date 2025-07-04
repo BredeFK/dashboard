@@ -1,4 +1,4 @@
-package no.fritjof.weatherapp.model
+package no.fritjof.dashboard.model
 
 import java.time.LocalDateTime
 

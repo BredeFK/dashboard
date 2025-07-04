@@ -1,10 +1,10 @@
-package no.fritjof.weatherapp.controller
+package no.fritjof.dashboard.controller
 
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.tags.Tag
-import no.fritjof.weatherapp.model.WeatherForecast
-import no.fritjof.weatherapp.service.LocationForecastService
+import no.fritjof.dashboard.model.WeatherForecast
+import no.fritjof.dashboard.service.LocationForecastService
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 @Tag(name = "Weather Controller")
 @Controller
 @RequestMapping("/api/weather")
-class WeatherAppController(
+class WeatherController(
     private val locationForecastService: LocationForecastService
 ) {
 

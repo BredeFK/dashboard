@@ -1,4 +1,4 @@
-package no.fritjof.weatherapp.controller
+package no.fritjof.dashboard.controller
 
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.ArraySchema
@@ -6,8 +6,8 @@ import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.tags.Tag
-import no.fritjof.weatherapp.model.Coordinates
-import no.fritjof.weatherapp.service.NominatimService
+import no.fritjof.dashboard.model.Coordinates
+import no.fritjof.dashboard.service.NominatimService
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller

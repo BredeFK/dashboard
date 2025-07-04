@@ -1,4 +1,4 @@
-package no.fritjof.weatherapp.dto
+package no.fritjof.dashboard.dto
 
 import com.fasterxml.jackson.annotation.JsonProperty
 

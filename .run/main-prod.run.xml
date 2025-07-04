@@ -4,11 +4,11 @@
         <option name="envFilePaths">
             <option value="$PROJECT_DIR$/.env"/>
         </option>
-        <module name="weatherApp"/>
+        <module name="dashboard"/>
         <selectedOptions>
             <option name="environmentVariables"/>
         </selectedOptions>
-        <option name="SPRING_BOOT_MAIN_CLASS" value="no.fritjof.weatherapp.WeatherAppApplication"/>
+        <option name="SPRING_BOOT_MAIN_CLASS" value="no.fritjof.dashboard.DashboardApplication"/>
         <extension name="net.ashald.envfile">
             <option name="IS_ENABLED" value="false"/>
             <option name="IS_SUBST" value="false"/>

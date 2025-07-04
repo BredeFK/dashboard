@@ -1,11 +1,11 @@
-package no.fritjof.weatherapp
+package no.fritjof.dashboard
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class WeatherAppApplication
+class DashboardApplication
 
 fun main(args: Array<String>) {
-    runApplication<WeatherAppApplication>(*args)
+    runApplication<DashboardApplication>(*args)
 }

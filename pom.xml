@@ -11,10 +11,10 @@
     </parent>
 
     <groupId>no.fritjof</groupId>
-    <artifactId>weatherApp</artifactId>
+    <artifactId>dashboard</artifactId>
     <version>0.0.1</version>
-    <name>weatherApp</name>
-    <description>weatherApp</description>
+    <name>dashboard</name>
+    <description>dashboard</description>
 
     <url/>
     <licenses>

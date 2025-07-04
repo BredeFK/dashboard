@@ -1,4 +1,4 @@
-package no.fritjof.weatherapp.service.strava
+package no.fritjof.dashboard.service.strava
 
 import org.springframework.stereotype.Component
 
