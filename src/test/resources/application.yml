@@ -17,3 +17,7 @@ strava:
   client-id: mock
   client-secret: mock
   refresh-token: mock
+
+discord:
+  base-url: mock
+  webhook-url-path: mock
