@@ -12,11 +12,12 @@ import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.WebClientResponseException
 import java.time.DayOfWeek
-import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.ZoneId
+import java.time.ZoneOffset
+import java.time.ZonedDateTime
+import java.time.temporal.ChronoUnit
 import java.time.temporal.TemporalAdjusters
-import java.util.TimeZone
+
 
 @Service
 class StravaService(
@@ -29,6 +30,30 @@ class StravaService(
 ) {
 
     private val logger: Logger = LoggerFactory.getLogger(javaClass)
+
+    fun getScoreBoard(): List<Athlete> {
+        val thisMonday = getThisWeeksMondayUTC()
+        val activities = getClubActivities(after = thisMonday)
+
+        return convertActivitiesToListOfAthletes(activities)
+    }
+
+    fun getLastWeeksScoreBoard(): List<Athlete> {
+        val (monday, sunday) = getLastMondayAndSundayUTC()
+
+        val activitiesAfterLastWeeksMonday = getClubActivities(after = monday)
+        val activitiesAfterLastWeeksSunday = getClubActivities(after = sunday)
+
+        if (activitiesAfterLastWeeksMonday == null || activitiesAfterLastWeeksSunday == null) {
+            throw IllegalStateException("Something went wrong with getting activities from last week")
+        }
+
+        val lastWeeksActivities = activitiesAfterLastWeeksMonday.filter { activity ->
+            activity !in activitiesAfterLastWeeksSunday
+        }
+
+        return convertActivitiesToListOfAthletes(lastWeeksActivities)
+    }
 
     private fun getAuthToken(): String {
         val tokenStore = stravaTokenService.get()
@@ -65,14 +90,13 @@ class StravaService(
         throw RuntimeException("Could not get Strava Access token")
     }
 
-    private fun getActivities(): List<StravaActivityDto>? {
+    private fun getClubActivities(after: ZonedDateTime): List<StravaActivityDto>? {
         val token = getAuthToken()
-        val thisWeeksMonday = getThisWeeksMondayInEpoch()
-
+        logger.info("Getting activities after ${formatDate(after.toLocalDateTime())}: In Epoch Seconds ${after.toEpochSecond()}")
         return webClient.get()
             .uri {
                 it.path("/clubs/$clubId/activities")
-                    .queryParam("after", thisWeeksMonday)
+                    .queryParam("after", after.toEpochSecond())
                     .queryParam("sport_type", "Run")
                     .build()
             }
@@ -89,23 +113,46 @@ class StravaService(
             .block()
     }
 
-    private fun getThisWeeksMondayInEpoch(): Long {
-        val timeZoneId = TimeZone.getTimeZone("ECT").toZoneId()
-        return LocalDate
-            .now(timeZoneId)
-            .with(
-                TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY)
-            )
-            .atStartOfDay(timeZoneId)
-            .toEpochSecond()
+    private fun formatDate(date: LocalDateTime): String {
+        return "${date.dayOfWeek} ${date.dayOfMonth.toString().padStart(2, '0')}/${
+            date.monthValue.toString().padStart(2, '0')
+        }/${date.year} ${date.hour.toString().padStart(2, '0')}:${
+            date.minute.toString().padStart(2, '0')
+        }:${date.second.toString().padStart(2, '0')}"
     }
 
-    fun getScoreBoard(): List<Athlete> {
-        val activities = getActivities()
+    private fun getThisWeeksMondayUTC(): ZonedDateTime {
+        return ZonedDateTime.now(ZoneOffset.UTC)
+            .with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))
+            .truncatedTo(ChronoUnit.DAYS) // Sets time to 00:00
+    }
+
+    private fun getLastMondayAndSundayUTC(): Pair<ZonedDateTime, ZonedDateTime> {
+        val now = ZonedDateTime.now(ZoneOffset.UTC)
+
+        val lastMonday = now
+            .with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))
+            .minusWeeks(1)
+            .truncatedTo(ChronoUnit.DAYS)
+
+        val lastSunday = lastMonday
+            .plusDays(6)
+            .withHour(23)
+            .withMinute(59)
+            .withSecond(59)
+
+        return Pair(lastMonday, lastSunday)
+    }
+
+
+    private fun convertActivitiesToListOfAthletes(activities: List<StravaActivityDto>?): List<Athlete> {
+        if (activities == null || activities.isEmpty()) {
+            logger.warn("List of activities is empty")
+            return emptyList()
+        }
 
         val athletes = mutableMapOf<String, Athlete>()
-
-        activities?.forEach { activity ->
+        activities.forEach { activity ->
             athletes.getOrPut(activity.fullName()) {
                 Athlete(activity.fullName())
             }.addActivity(
@@ -116,6 +163,7 @@ class StravaService(
         }
 
         if (athletes.isEmpty()) {
+            logger.warn("List of athletes is empty")
             return emptyList()
         }
 
@@ -123,7 +171,6 @@ class StravaService(
         sortedAthletes.forEach {
             it.setAveragePacePerKm()
         }
-
         return sortedAthletes
     }
 }

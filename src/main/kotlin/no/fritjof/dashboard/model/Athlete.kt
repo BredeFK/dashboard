@@ -27,4 +27,12 @@ data class Athlete(
         }
     }
 
+    fun getTotalDistanceFormatted(): String {
+        return String.format("%.2f km", this.totalDistance / 1000)
+    }
+
+    fun getLongestActivityFormatted(): String {
+        return String.format("%.2f km", this.longestActivity / 1000)
+    }
+
 }

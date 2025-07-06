@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.tags.Tag
 import no.fritjof.dashboard.model.Athlete
+import no.fritjof.dashboard.service.DiscordService
 import no.fritjof.dashboard.service.strava.StravaService
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -18,7 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping
 @Controller
 @RequestMapping("/api/strava")
 class StravaController(
-    private val stravaService: StravaService
+    private val stravaService: StravaService,
+    private val discordService: DiscordService
 ) {
 
     @GetMapping("scoreboard", produces = [MediaType.APPLICATION_JSON_VALUE])
@@ -41,6 +43,7 @@ class StravaController(
         ]
     )
     fun scoreboard(): ResponseEntity<List<Athlete>?> {
+        val resp = discordService.postScoreBoard()
         val response = stravaService.getScoreBoard()
         if (response.isNotEmpty()) {
             return ResponseEntity.ok(response)

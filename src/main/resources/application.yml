@@ -18,3 +18,7 @@ strava:
   client-id: ${STRAVA_CLIENT_ID}
   client-secret: ${STRAVA_CLIENT_SECRET}
   refresh-token: ${STRAVA_REFRESH_TOKEN}
+
+discord:
+  base-url: https://discord.com/api/webhooks
+  webhook-url-path: ${DISCORD_WEBHOOK_URL_PATH}
