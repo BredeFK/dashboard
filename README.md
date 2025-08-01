@@ -40,7 +40,7 @@ A Kotlin-based Spring Boot dashboard application using various API's to be displ
 STRAVA_CLIENT_ID=some-id
 STRAVA_CLIENT_SECRET=some-secret
 STRAVA_REFRESH_TOKEN=valid-unexpired-refresh-token
-DISCORD_WEBHOOK_URL=some-webhook-utl
+DISCORD_WEBHOOK_URL_PATH=some-webhook-url
 ```
 
 #### Terminal

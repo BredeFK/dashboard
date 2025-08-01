@@ -19,8 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 @Controller
 @RequestMapping("/api/strava")
 class StravaController(
-    private val stravaService: StravaService,
-    private val discordService: DiscordService
+    private val stravaService: StravaService
 ) {
 
     @GetMapping("scoreboard", produces = [MediaType.APPLICATION_JSON_VALUE])
@@ -43,7 +42,6 @@ class StravaController(
         ]
     )
     fun scoreboard(): ResponseEntity<List<Athlete>?> {
-        val resp = discordService.postScoreBoard()
         val response = stravaService.getScoreBoard()
         if (response.isNotEmpty()) {
             return ResponseEntity.ok(response)
