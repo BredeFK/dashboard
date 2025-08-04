@@ -42,10 +42,6 @@ class StravaController(
         ]
     )
     fun scoreboard(): ResponseEntity<List<Athlete>?> {
-        val response = stravaService.getScoreBoard()
-        if (response.isNotEmpty()) {
-            return ResponseEntity.ok(response)
-        }
-        return ResponseEntity.badRequest().body(null)
+        return ResponseEntity.ok(stravaService.getScoreBoard())
     }
 }
