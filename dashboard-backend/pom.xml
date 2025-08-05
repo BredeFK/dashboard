@@ -11,7 +11,7 @@
     </parent>
 
     <groupId>no.fritjof</groupId>
-    <artifactId>dashboard</artifactId>
+    <artifactId>dashboard-backend</artifactId>
     <version>0.0.1</version>
     <name>dashboard</name>
     <description>dashboard</description>
