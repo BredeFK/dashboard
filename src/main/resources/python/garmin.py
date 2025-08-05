@@ -25,10 +25,13 @@ try:
     active_challenges = client.connectapi(path)
     if len(active_challenges) != 0:
         print(f'Active Challenges found: {len(active_challenges)}')
+        json_challenges = []
         for challenge in active_challenges:
             uuid = challenge["uuid"]
-            print(f'Challenge name: {challenge["adHocChallengeName"]} [{uuid}]')
+            print(f'\tChallenge name: {challenge["adHocChallengeName"]} [{uuid}]')
             chl = client.connectapi(f'adhocchallenge-service/adHocChallenge/{uuid}?todayDate={today}')
-            print(json.dumps(chl))
+            json_challenges.append(chl)
+        with open(f'python/{today}-challenges.json', "w") as outfile:
+            json.dump(json_challenges, outfile)
 except Exception as e:
     print(f'An error occurred: {e}')
