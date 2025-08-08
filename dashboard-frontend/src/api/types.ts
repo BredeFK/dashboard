@@ -25,3 +25,25 @@ export interface Athlete {
     totalDistanceFormatted: string;
     longestActivityFormatted: string;
 }
+
+export interface DepartureBoard {
+    id: string;
+    name: string;
+    estimatedCalls: EstimatedCall[];
+}
+
+export interface EstimatedCall {
+    realtime: boolean;
+    aimedArrivalTime: Date;
+    expectedArrivalTime: Date;
+    frontText: string;
+    lineNumber: string;
+    transportMode: string;
+    boardingLocation: string;
+    presentation?: Presentation;
+}
+
+interface Presentation {
+    colour: string;
+    textColour: string;
+}
