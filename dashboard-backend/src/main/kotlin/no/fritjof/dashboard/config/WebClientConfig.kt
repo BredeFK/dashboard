@@ -19,9 +19,12 @@ class WebClientConfig(
     @Value($$"${strava.base-url}") private val stravaUrl: String,
     @Value($$"${discord.base-url}") private val discordUrl: String,
     @Value($$"${discord.webhook-url-path}") private val discordWebhookPath: String,
+    @Value($$"${en-tur.base-url}") private val enTurBaseUrl: String,
+    @Value($$"${en-tur.et-client-name}") private val enTurClientName: String,
 ) {
 
     private val log: Logger = LoggerFactory.getLogger(javaClass)
+    private val enTurHeaderName = "ET-Client-Name"
 
     @Bean
     fun locationForecastWebClient(): WebClient {
@@ -58,6 +61,17 @@ class WebClientConfig(
             .filter(requestLoggerFilter())
             .filter(responseLoggerFilter())
             .baseUrl("$discordUrl/$discordWebhookPath")
+            .build()
+    }
+
+    @Bean
+    fun enTurWebClient(): WebClient {
+        return WebClient.builder()
+            .filter(requestLoggerFilter())
+            .filter(responseLoggerFilter())
+            .baseUrl(enTurBaseUrl)
+            .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+            .defaultHeader(enTurHeaderName, enTurClientName)
             .build()
     }
 

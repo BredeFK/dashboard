@@ -22,3 +22,7 @@ strava:
 discord:
   base-url: https://discord.com/api/webhooks
   webhook-url-path: ${DISCORD_WEBHOOK_URL_PATH}
+
+en-tur:
+  base-url: https://api.entur.io/journey-planner/v3/graphql
+  et-client-name: fritjof-${spring.application.name}
