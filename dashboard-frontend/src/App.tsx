@@ -27,11 +27,11 @@ function App() {
 
     function getPublicTransportType(estimatedCall: EstimatedCall) {
         return (
-            <div style={{backgroundColor: estimatedCall.presentation?.colour}}>
-                <img src={`icons/${estimatedCall.transportMode}.svg`} alt="bus" height={30} width={30}/>
+            <div className='transport-badge' style={{backgroundColor: estimatedCall.presentation?.colour}}>
+                <img src={`icons/${estimatedCall.transportMode}.svg`} alt="bus"/>
+                <span className='transport-line-number'>{estimatedCall.lineNumber}</span>
             </div>
         )
-
     }
 
     return (
@@ -71,11 +71,11 @@ function App() {
                         <p>{departureBoard.estimatedCalls[0].boardingLocation}</p>
                         <ul>
                             {departureBoard.estimatedCalls.slice(0, 5).map((item) => (
-                                <li key={item.aimedArrivalTime.toString()}>
-                                    <div>
-                                        {getPublicTransportType(item)}
-                                        {item.lineNumber} {item.frontText} - {item.aimedArrivalTime.toString()}
-                                    </div>
+                                <li key={item.aimedArrivalTime.toString()} className='departure-item'>
+                                    {getPublicTransportType(item)}
+                                    <span>
+                                        {item.frontText} {item.aimedArrivalTime.toString()}
+                                    </span>
                                 </li>
                             ))}
                         </ul>
