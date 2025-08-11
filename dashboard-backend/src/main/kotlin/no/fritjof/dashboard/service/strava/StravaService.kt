@@ -1,16 +1,23 @@
 package no.fritjof.dashboard.service.strava
 
+import com.fasterxml.jackson.module.kotlin.jsonMapper
+import com.google.gson.Gson
 import no.fritjof.dashboard.dto.StravaActivityDto
 import no.fritjof.dashboard.model.Athlete
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.boot.autoconfigure.ssl.SslProperties
 import org.springframework.core.ParameterizedTypeReference
+import org.springframework.core.io.ClassPathResource
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
+import org.springframework.util.ResourceUtils
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.WebClientResponseException
+import java.io.File
+import java.nio.charset.StandardCharsets
 import java.time.DayOfWeek
 import java.time.LocalDateTime
 import java.time.ZoneOffset
@@ -31,7 +38,20 @@ class StravaService(
 
     private val logger: Logger = LoggerFactory.getLogger(javaClass)
 
-    fun getScoreBoard(): List<Athlete> {
+    fun getScoreBoard(mock: Boolean): List<Athlete> {
+        if (mock) {
+            val gson = Gson()
+            logger.info("Returning mock leaderboard")
+
+            val resourceStream = Thread.currentThread().contextClassLoader
+                .getResourceAsStream("strava-mock-file.json")
+                ?: throw RuntimeException("Mock file not found on classpath")
+
+            val json = resourceStream.bufferedReader(StandardCharsets.UTF_8).use { it.readText() }
+            return gson.fromJson(json, Array<Athlete>::class.java).toList()
+
+        }
+
         val thisMonday = getThisWeeksMondayUTC()
         val activities = getClubActivities(after = thisMonday)
 
@@ -146,7 +166,7 @@ class StravaService(
 
 
     private fun convertActivitiesToListOfAthletes(activities: List<StravaActivityDto>?): List<Athlete> {
-        if (activities == null || activities.isEmpty()) {
+        if (activities.isNullOrEmpty()) {
             logger.warn("List of activities is empty")
             return emptyList()
         }
@@ -157,7 +177,7 @@ class StravaService(
                 Athlete(activity.fullName())
             }.addActivity(
                 movingTime = activity.movingTime,
-                elevationGain = activity.totalElevationGain,
+                elevationGain = activity.totalElevationGain.toInt(),
                 distance = activity.distance
             )
         }

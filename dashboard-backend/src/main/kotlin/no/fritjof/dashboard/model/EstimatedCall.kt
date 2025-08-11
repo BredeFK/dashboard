@@ -11,7 +11,7 @@ data class EstimatedCall(
     val frontText: String,
     val lineNumber: String,
     val transportMode: String,
-    val boardingLocation: String,
+    val boardingLocation: String?,
     val presentation: Presentation
 ) {
     companion object {

@@ -14,7 +14,7 @@ class EnTurService(
 ) {
     private val log: Logger = LoggerFactory.getLogger(javaClass)
 
-    fun getDepartureBoard(stopPlaceId: String, timeRange: Long, numberOfDepartures: Int): DepartureBoard? {
+    fun getDepartureBoard(stopPlaceId: String, quayId: String, timeRange: Long, numberOfDepartures: Int): DepartureBoard? {
         val query = getDepartureBoardBody(stopPlaceId, timeRange, numberOfDepartures)
         val response = webclient.post()
             .bodyValue(query)
@@ -22,7 +22,7 @@ class EnTurService(
             .bodyToMono(EnTurDto::class.java)
             .block()
         if (response == null) return null
-        return DepartureBoard.toDepartureBoard(response)
+        return DepartureBoard.toDepartureBoard(response, quayId)
     }
 
     private fun getDepartureBoardBody(stopPlaceId: String, timeRange: Long, numberOfDepartures: Int): Query {

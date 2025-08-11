@@ -29,16 +29,16 @@ export const fetchWeatherForcast = async (): Promise<WeatherForecast | null> => 
 
 export const fetchStravaScoreboard = async (): Promise<Athlete[] | null> => {
     try {
-        return await apiRequest('/api/strava/scoreboard', 'GET');
+        return await apiRequest('/api/strava/scoreboard?mock=true', 'GET');
     } catch (error) {
         console.error('Failed to fetch Strava scoreboard from backend', error);
         return null;
     }
 }
 
-export const fetchPublicTransportDepartureBoard = async (): Promise<EnTurDepartureBoard | null> => {
+export const fetchPublicTransportDepartureBoard = async (stopPlaceId: string = 'NSR:StopPlace:6006', quayId: string = 'NSR:Quay:10985'): Promise<EnTurDepartureBoard | null> => {
     try {
-        return await apiRequest('/api/public-transport/departure-board', 'GET');
+        return await apiRequest(`/api/public-transport/departure-board?stopPlaceId=${stopPlaceId}&quayId=${quayId}`, 'GET');
     } catch (error) {
         console.error('Failed to fetch departure board from backend', error);
         return null;

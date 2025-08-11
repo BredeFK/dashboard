@@ -1,0 +1,57 @@
+[
+  {
+    "fullName": "Ola N.",
+    "movingTime": 21473.0,
+    "elevationGain": 779,
+    "totalDistance": 56507.200000000004,
+    "numberOfActivities": 7,
+    "longestActivity": 13031.7,
+    "averagePacePrKm": "6:20 /km",
+    "totalDistanceFormatted": "56.51 km",
+    "longestActivityFormatted": "13.03 km"
+  },
+  {
+    "fullName": "Per A.",
+    "movingTime": 19064.0,
+    "elevationGain": 532,
+    "totalDistance": 50462.6,
+    "numberOfActivities": 8,
+    "longestActivity": 10009.9,
+    "averagePacePrKm": "6:17 /km",
+    "totalDistanceFormatted": "50.46 km",
+    "longestActivityFormatted": "10.01 km"
+  },
+  {
+    "fullName": "Pål A.",
+    "movingTime": 15684.0,
+    "elevationGain": 636,
+    "totalDistance": 41158.3,
+    "numberOfActivities": 6,
+    "longestActivity": 9225.1,
+    "averagePacePrKm": "6:21 /km",
+    "totalDistanceFormatted": "41.16 km",
+    "longestActivityFormatted": "9.23 km"
+  },
+  {
+    "fullName": "Askeladden .B",
+    "movingTime": 6672.0,
+    "elevationGain": 236,
+    "totalDistance": 15211.599999999999,
+    "numberOfActivities": 3,
+    "longestActivity": 5539.1,
+    "averagePacePrKm": "7:18 /km",
+    "totalDistanceFormatted": "15.21 km",
+    "longestActivityFormatted": "5.54 km"
+  },
+  {
+    "fullName": "Kari N.",
+    "movingTime": 3711.0,
+    "elevationGain": 108,
+    "totalDistance": 12453.2,
+    "numberOfActivities": 2,
+    "longestActivity": 7441.0,
+    "averagePacePrKm": "4:57 /km",
+    "totalDistanceFormatted": "12.45 km",
+    "longestActivityFormatted": "7.44 km"
+  }
+]

@@ -1,8 +1,9 @@
 import React from 'react';
 import './App.css';
 import {Athlete, EnTurDepartureBoard, WeatherForecast} from "./api/types";
-import {fetchStravaScoreboard, fetchWeatherForcast, fetchPublicTransportDepartureBoard} from "./api/client";
+import {fetchPublicTransportDepartureBoard, fetchStravaScoreboard, fetchWeatherForcast} from "./api/client";
 import DepartureBoard from "./components/departureboard/DepartureBoard";
+import StravaLeaderBoard from "./components/strava-leaderboard/StravaLeaderBoard";
 
 function App() {
     const [athletes, setAthletes] = React.useState<Athlete[] | null>(null);
@@ -42,19 +43,7 @@ function App() {
                     </div>
                 )}
 
-                {athletes != null && athletes.length > 0 && (
-                    <div>
-                        <h2>Strava Scoreboard</h2>
-                        <ul>
-                            {athletes.map((athlete) => (
-                                <li key={athlete.fullName}>
-                                    {athlete.fullName}: {athlete.totalDistanceFormatted} ({athlete.numberOfActivities} activities)
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                )}
-
+                <StravaLeaderBoard data={athletes}/>
                 <DepartureBoard data={departureBoard}/>
 
             </header>

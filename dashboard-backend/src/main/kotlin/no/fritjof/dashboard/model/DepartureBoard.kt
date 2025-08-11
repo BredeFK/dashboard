@@ -8,11 +8,11 @@ data class DepartureBoard(
     val estimatedCalls: List<EstimatedCall>,
 ) {
     companion object {
-        fun toDepartureBoard(enTurDto: EnTurDto): DepartureBoard {
+        fun toDepartureBoard(enTurDto: EnTurDto, quayId: String): DepartureBoard {
             val estimatedCalls =
                 enTurDto.data.stopPlace.estimatedCalls.filter {
                     it.serviceJourney.journeyPattern.line.authority.name == "Ruter" &&
-                            it.quay.id == "NSR:Quay:10985"
+                            it.quay.id == quayId
                 }.map {
                     EstimatedCall.toEstimatedCall(it)
                 }

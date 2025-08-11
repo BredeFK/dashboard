@@ -3,13 +3,13 @@ package no.fritjof.dashboard.model
 data class Athlete(
     val fullName: String,
     var movingTime: Double = 0.0,
-    var elevationGain: Double = 0.0,
+    var elevationGain: Int = 0,
     var totalDistance: Double = 0.0,
     var numberOfActivities: Int = 0,
     var longestActivity: Double = 0.0,
     var averagePacePrKm: String = "N/A",
 ) {
-    fun addActivity(movingTime: Double, elevationGain: Double, distance: Double) {
+    fun addActivity(movingTime: Double, elevationGain: Int, distance: Double) {
         this.movingTime += movingTime
         this.elevationGain += elevationGain
         this.totalDistance += distance

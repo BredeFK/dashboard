@@ -39,7 +39,7 @@ export interface EstimatedCall {
     frontText: string;
     lineNumber: string;
     transportMode: string;
-    boardingLocation: string;
+    boardingLocation?: string;
     presentation?: Presentation;
 }
 

@@ -41,7 +41,7 @@ class StravaController(
             )
         ]
     )
-    fun scoreboard(): ResponseEntity<List<Athlete>?> {
-        return ResponseEntity.ok(stravaService.getScoreBoard())
+    fun scoreboard(mock: Boolean = false): ResponseEntity<List<Athlete>?> {
+        return ResponseEntity.ok(stravaService.getScoreBoard(mock))
     }
 }

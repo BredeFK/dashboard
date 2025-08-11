@@ -2,9 +2,7 @@ package no.fritjof.dashboard.controller
 
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.responses.ApiResponse
-import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
-import no.fritjof.dashboard.dto.EnTurDto
 import no.fritjof.dashboard.model.DepartureBoard
 import no.fritjof.dashboard.service.entur.EnTurService
 import org.springframework.http.MediaType
@@ -27,11 +25,12 @@ class PublicTransportController(
     )
     @ApiResponse(responseCode = "200", description = "OK")
     fun getDepartureBoard(
-        stopPlaceId: String = "NSR:StopPlace:6006", // TODO remove this
+        stopPlaceId: String,
+        quayId: String,
         timeRange: Long = 72100,
         numberOfDepartures: Int = 20 // Not accurate number after filtering
     ): ResponseEntity<DepartureBoard> {
-        val response = enTurService.getDepartureBoard(stopPlaceId, timeRange, numberOfDepartures)
+        val response = enTurService.getDepartureBoard(stopPlaceId, quayId, timeRange, numberOfDepartures)
         return ResponseEntity.ok(response)
     }
 }

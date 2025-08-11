@@ -40,7 +40,7 @@ data class DestinationDisplayDto(
 data class QuayDto(
     val id: String,
     val name: String,
-    val description: String,
+    val description: String? = "N/A",
     val publicCode: String?
 )
 

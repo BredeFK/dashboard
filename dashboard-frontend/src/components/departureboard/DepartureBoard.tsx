@@ -12,10 +12,12 @@ export default function DepartureBoard({data}: Readonly<{ data: EnTurDepartureBo
             </div>
         )
     }
+    const direction = data.estimatedCalls[0]?.boardingLocation
     return (
         <div>
             <h2>Avganger fra <i>{data.name}</i></h2>
-            <p>{data.estimatedCalls[0].boardingLocation}</p>
+
+            {direction && <p>{direction}</p>}
             <ul>
                 {data.estimatedCalls
                     .slice(0, 5)
@@ -69,7 +71,7 @@ function TransportBadge({estimatedCall}: Readonly<{ estimatedCall: EstimatedCall
     return (
         <div className='transport-badge' style={{backgroundColor: estimatedCall.presentation?.colour}}>
             <img src={`icons/${estimatedCall.transportMode}.svg`} alt="bus"/>
-            <span className='transport-line-number'>{estimatedCall.lineNumber}</span>
+            <span className='transport-line-number'>{estimatedCall.lineNumber.padStart(3, '')}</span>
         </div>
     )
 }
