@@ -1,5 +1,5 @@
 import axios, {AxiosResponse} from 'axios';
-import {Athlete, EnTurDepartureBoard, WeatherForecast} from "./types";
+import {Athlete, EnTurDepartureBoard, WeatherForecastData} from "./types";
 
 const apiClient = axios.create({
     baseURL: 'http://localhost:8080',
@@ -18,7 +18,7 @@ const apiRequest = async <T>(url: string, method: 'GET' | 'POST' | 'PUT' | 'DELE
     return response.data;
 };
 
-export const fetchWeatherForcast = async (): Promise<WeatherForecast | null> => {
+export const fetchWeatherForcast = async (): Promise<WeatherForecastData | null> => {
     try {
         return await apiRequest('/api/weather/forecast', 'GET');
     } catch (error) {

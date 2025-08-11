@@ -1,13 +1,14 @@
 import React from 'react';
 import './App.css';
-import {Athlete, EnTurDepartureBoard, WeatherForecast} from "./api/types";
+import {Athlete, EnTurDepartureBoard, WeatherForecastData} from "./api/types";
 import {fetchPublicTransportDepartureBoard, fetchStravaScoreboard, fetchWeatherForcast} from "./api/client";
 import DepartureBoard from "./components/departureboard/DepartureBoard";
 import StravaLeaderBoard from "./components/strava-leaderboard/StravaLeaderBoard";
+import WeatherForecast from "./components/weather-forecast/WeatherForecast";
 
 function App() {
     const [athletes, setAthletes] = React.useState<Athlete[] | null>(null);
-    const [weather, setWeather] = React.useState<WeatherForecast | null>(null);
+    const [weather, setWeather] = React.useState<WeatherForecastData | null>(null);
     const [departureBoard, setDepartureBoard] = React.useState<EnTurDepartureBoard | null>(null);
 
     React.useEffect(() => {
@@ -28,24 +29,9 @@ function App() {
     return (
         <div className="App">
             <header className="App-header">
-                {weather && (
-                    <div>
-                        <h2>Weather</h2>
-                        <p>Last updated: {weather.lastUpdated}</p>
-                        <ul>
-                            {weather.weatherSeries.slice(0, 5).map((item) => (
-                                <li key={item.timestamp}>
-                                    {new Date(item.timestamp).toLocaleTimeString()}: {item.temperature}°C, {item.uvIndexClearSky} UV
-                                    Index
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                )}
-
+                <WeatherForecast data={weather}/>
                 <StravaLeaderBoard data={athletes}/>
                 <DepartureBoard data={departureBoard}/>
-
             </header>
         </div>
     );

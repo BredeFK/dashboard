@@ -1,4 +1,4 @@
-interface WeatherInstance {
+export interface WeatherInstance {
     timestamp: string;
     temperature: number;
     humidity: number;
@@ -9,7 +9,7 @@ interface WeatherInstance {
     uvIndexClearSky?: number;
 }
 
-export interface WeatherForecast {
+export interface WeatherForecastData {
     lastUpdated: string;
     weatherSeries: WeatherInstance[];
 }

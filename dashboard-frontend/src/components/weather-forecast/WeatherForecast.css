@@ -1,0 +1,6 @@
+.weather-item {
+    min-width: 70px;
+    padding: 8px;
+    background-color: var(--gray-8);
+    border-radius: 8px;
+}
