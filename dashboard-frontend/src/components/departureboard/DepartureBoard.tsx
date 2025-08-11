@@ -1,35 +1,67 @@
 import {EnTurDepartureBoard, EstimatedCall} from "../../api/types";
 import './DepartureBoard.css'
 import React from "react";
+import {Card, Flex, Text} from '@radix-ui/themes'
 
 export default function DepartureBoard({data}: Readonly<{ data: EnTurDepartureBoard | null }>) {
     if (!data) {
         return (
             <div>
-                <h2>Departure Board</h2>
-                <p>Could not find any departures...</p>
+                <h2>Avganger</h2>
+                <p>Klarte ikke å finne avganger...</p>
             </div>
         )
     }
     return (
         <div>
-            <h2>Departure Board for <i>{data.name}</i></h2>
+            <h2>Avganger fra <i>{data.name}</i></h2>
             <p>{data.estimatedCalls[0].boardingLocation}</p>
             <ul>
-                {data.estimatedCalls.slice(0, 5).map((item) => (
-                    <EstimatedCallItem estimatedCall={item}/>
-                ))}
+                {data.estimatedCalls
+                    .slice(0, 5)
+                    .sort((a, b) =>
+                        new Date(a.expectedDepartureTime).getTime() - new Date(b.expectedDepartureTime).getTime())
+                    .map((item) => (
+                        <EstimatedCallItem estimatedCall={item} key={`${item.frontText}-${item.aimedDepartureTime}`}/>
+                    ))}
             </ul>
         </div>
     )
 }
 
 function EstimatedCallItem({estimatedCall}: Readonly<{ estimatedCall: EstimatedCall }>) {
+    const aimedTime = new Date(estimatedCall.aimedDepartureTime)
+    const expectedTime = new Date(estimatedCall.expectedDepartureTime)
+    const isDelayed = estimatedCall.realtime && getIsDelayed(expectedTime, aimedTime)
+
     return (
-        <li key={estimatedCall.aimedArrivalTime.toString()} className="departure-item">
-            <TransportBadge estimatedCall={estimatedCall}/>
-            <span>{estimatedCall.frontText} {estimatedCall.aimedArrivalTime.toString()}</span>
-        </li>
+        <Card className='estimated-call-item'>
+            <Flex direction="column" gap="1">
+                <Flex gap="3" align="center">
+                    <TransportBadge estimatedCall={estimatedCall}/>
+                    <Text className='front-text' as="div" size="6" weight="bold">{estimatedCall.frontText}</Text>
+                </Flex>
+                <Flex gap='2' align='center'>
+                    {isDelayed ? (
+                        <>
+                            <Text as='div' size='2' color='red' weight='bold'>
+                                {formatTime(expectedTime)}
+                            </Text>
+                            <Text
+                                as='div'
+                                size='2'
+                                color='gray'
+                                className='delayed-text'>
+                                {formatTime(aimedTime)}
+                            </Text>
+                        </>) : (
+                        <Text as='div' size='2' color='gray' weight='bold'>
+                            {formatTime(aimedTime)}
+                        </Text>
+                    )}
+                </Flex>
+            </Flex>
+        </Card>
     )
 }
 
@@ -41,3 +73,13 @@ function TransportBadge({estimatedCall}: Readonly<{ estimatedCall: EstimatedCall
         </div>
     )
 }
+
+const getIsDelayed = (expectedTime: Date, aimedTime: Date) =>
+    floorToMinute(expectedTime).getTime() > floorToMinute(aimedTime).getTime()
+
+const floorToMinute = (date: Date) =>
+    new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes());
+
+const formatTime = (date: Date) =>
+    date.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})
+

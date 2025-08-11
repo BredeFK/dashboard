@@ -34,8 +34,8 @@ export interface EnTurDepartureBoard {
 
 export interface EstimatedCall {
     realtime: boolean;
-    aimedArrivalTime: Date;
-    expectedArrivalTime: Date;
+    aimedDepartureTime: Date;
+    expectedDepartureTime: Date;
     frontText: string;
     lineNumber: string;
     transportMode: string;

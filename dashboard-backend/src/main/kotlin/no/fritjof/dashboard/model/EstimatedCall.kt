@@ -6,8 +6,8 @@ import java.time.ZoneId
 
 data class EstimatedCall(
     val realtime: Boolean,
-    val aimedArrivalTime: LocalDateTime,
-    val expectedArrivalTime: LocalDateTime,
+    val aimedDepartureTime: LocalDateTime,
+    val expectedDepartureTime: LocalDateTime,
     val frontText: String,
     val lineNumber: String,
     val transportMode: String,
@@ -33,10 +33,10 @@ data class EstimatedCall(
 
             return EstimatedCall(
                 realtime = estimatedCallDto.realtime,
-                aimedArrivalTime = estimatedCallDto.aimedArrivalTime
+                aimedDepartureTime = estimatedCallDto.aimedArrivalTime
                     .atZoneSameInstant(ZoneId.of("Europe/Oslo"))
                     .toLocalDateTime(),
-                expectedArrivalTime = estimatedCallDto.expectedArrivalTime
+                expectedDepartureTime = estimatedCallDto.expectedArrivalTime
                     .atZoneSameInstant(ZoneId.of("Europe/Oslo"))
                     .toLocalDateTime(),
                 frontText = estimatedCallDto.destinationDisplay.frontText,

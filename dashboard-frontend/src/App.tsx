@@ -24,8 +24,6 @@ function App() {
 
     }, []);
 
-    // TODO : https://www.radix-ui.com/primitives
-
     return (
         <div className="App">
             <header className="App-header">
