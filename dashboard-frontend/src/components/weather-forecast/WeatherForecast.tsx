@@ -17,7 +17,7 @@ export default function WeatherForecast({data}: Readonly<{ data: WeatherForecast
         <div>
             <h2>Værmelding</h2>
             <Flex gap="3" align="center" style={{overflowX: 'auto'}}>
-                {data.weatherSeries.slice(0, 5).map((item) => (
+                {data.weatherSeries.slice(0, 6).map((item) => (
                     <WeatherItem item={item} key={item.timestamp}/>
                 ))}
             </Flex>
@@ -33,7 +33,46 @@ function WeatherItem({item}: Readonly<{ item: WeatherInstance }>) {
             <Text size='2'>{hour}</Text>
             <img src={item.symbolUrl} alt={item.symbolCode} width={32} height={32}/>
             <Text size='2'>{item.temperature.toFixed(0)}°</Text>
-            <Text size='2' color='gray'>{item.uvIndexClearSky?.toFixed(0)} UV</Text>
+            {UvBadge(item.uvIndexClearSky ?? null)}
         </Flex>
     )
+}
+
+function uvIndexScale(uvIndex: number): UvIndexInfo {
+    switch (true) {
+        case uvIndex === 0:
+            return {colour: '#36373A', description: 'Ingen UV-stråling'};
+        case uvIndex >= 1 && uvIndex <= 2:
+            return {colour: '#0C551F', description: 'Lav'};
+        case uvIndex >= 3 && uvIndex <= 5:
+            return {colour: '#746401', description: 'Moderat'};
+        case uvIndex >= 6 && uvIndex <= 7:
+            return {colour: '#774801', description: 'Sterk'};
+        case uvIndex >= 8 && uvIndex <= 10:
+            return {colour: '#7B0A02', description: 'Svært sterk'};
+        case uvIndex > 10:
+            return {colour: '#491580', description: 'Ekstrem'};
+        default:
+            return {colour: '#ffffff', description: 'Ukjent UV grad'};
+    }
+}
+
+
+function UvBadge(uvIndex: number | null | undefined) {
+    if (uvIndex === null || uvIndex === undefined) {
+        return null;
+    }
+    const uvBadgeInfo = uvIndexScale(uvIndex);
+    return (
+        <div title={uvBadgeInfo.description}>
+            <div className='uv-badge' style={{backgroundColor: uvBadgeInfo.colour}}>
+                <Text size='2' color='gray'>{uvIndex?.toFixed(0)}</Text>
+            </div>
+        </div>
+    )
+}
+
+type UvIndexInfo = {
+    colour: string,
+    description: string,
 }

@@ -6,7 +6,7 @@ export interface WeatherInstance {
     symbolCode?: string;
     symbolUrl?: string;
     precipitationAmount?: number;
-    uvIndexClearSky?: number;
+    uvIndexClearSky: number | null;
 }
 
 export interface WeatherForecastData {

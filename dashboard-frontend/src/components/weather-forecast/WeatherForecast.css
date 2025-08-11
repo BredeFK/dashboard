@@ -1,6 +1,16 @@
 .weather-item {
     min-width: 70px;
     padding: 8px;
-    background-color: var(--gray-8);
+    background-color: #000000;
     border-radius: 8px;
+}
+
+.uv-badge {
+    font-weight: bold;
+    border-radius: 8px;
+    padding: 2px 6px;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 40px;
 }
