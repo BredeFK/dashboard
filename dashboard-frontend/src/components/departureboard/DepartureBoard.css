@@ -1,0 +1,26 @@
+.departure-item {
+    margin: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.transport-badge {
+    display: flex;
+    align-items: center;
+    padding: 12px 22px;
+    border-radius: 6px;
+    color: white;
+    font-weight: bold;
+    gap: 4px;
+    max-height: 24px;
+}
+
+.transport-badge img {
+    height: 30px;
+    width: 30px;
+}
+
+.transport-line-number {
+    margin: 0;
+}

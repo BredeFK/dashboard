@@ -1,5 +1,5 @@
 import axios, {AxiosResponse} from 'axios';
-import {Athlete, DepartureBoard, WeatherForecast} from "./types";
+import {Athlete, EnTurDepartureBoard, WeatherForecast} from "./types";
 
 const apiClient = axios.create({
     baseURL: 'http://localhost:8080',
@@ -36,7 +36,7 @@ export const fetchStravaScoreboard = async (): Promise<Athlete[] | null> => {
     }
 }
 
-export const fetchPublicTransportDepartureBoard = async (): Promise<DepartureBoard | null> => {
+export const fetchPublicTransportDepartureBoard = async (): Promise<EnTurDepartureBoard | null> => {
     try {
         return await apiRequest('/api/public-transport/departure-board', 'GET');
     } catch (error) {

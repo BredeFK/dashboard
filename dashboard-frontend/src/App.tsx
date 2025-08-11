@@ -1,12 +1,13 @@
 import React from 'react';
 import './App.css';
-import {Athlete, DepartureBoard, EstimatedCall, WeatherForecast} from "./api/types";
+import {Athlete, EnTurDepartureBoard, WeatherForecast} from "./api/types";
 import {fetchStravaScoreboard, fetchWeatherForcast, fetchPublicTransportDepartureBoard} from "./api/client";
+import DepartureBoard from "./components/departureboard/DepartureBoard";
 
 function App() {
     const [athletes, setAthletes] = React.useState<Athlete[] | null>(null);
     const [weather, setWeather] = React.useState<WeatherForecast | null>(null);
-    const [departureBoard, setDepartureBoard] = React.useState<DepartureBoard | null>(null);
+    const [departureBoard, setDepartureBoard] = React.useState<EnTurDepartureBoard | null>(null);
 
     React.useEffect(() => {
         fetchStravaScoreboard().then(data => {
@@ -24,15 +25,6 @@ function App() {
     }, []);
 
     // TODO : https://www.radix-ui.com/primitives
-
-    function getPublicTransportType(estimatedCall: EstimatedCall) {
-        return (
-            <div className='transport-badge' style={{backgroundColor: estimatedCall.presentation?.colour}}>
-                <img src={`icons/${estimatedCall.transportMode}.svg`} alt="bus"/>
-                <span className='transport-line-number'>{estimatedCall.lineNumber}</span>
-            </div>
-        )
-    }
 
     return (
         <div className="App">
@@ -65,22 +57,8 @@ function App() {
                     </div>
                 )}
 
-                {departureBoard && (
-                    <div>
-                        <h2>Departure Board for <u>{departureBoard.name}</u></h2>
-                        <p>{departureBoard.estimatedCalls[0].boardingLocation}</p>
-                        <ul>
-                            {departureBoard.estimatedCalls.slice(0, 5).map((item) => (
-                                <li key={item.aimedArrivalTime.toString()} className='departure-item'>
-                                    {getPublicTransportType(item)}
-                                    <span>
-                                        {item.frontText} {item.aimedArrivalTime.toString()}
-                                    </span>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                )}
+                <DepartureBoard data={departureBoard}/>
+
             </header>
         </div>
     );

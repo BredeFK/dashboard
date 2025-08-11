@@ -26,7 +26,7 @@ export interface Athlete {
     longestActivityFormatted: string;
 }
 
-export interface DepartureBoard {
+export interface EnTurDepartureBoard {
     id: string;
     name: string;
     estimatedCalls: EstimatedCall[];
