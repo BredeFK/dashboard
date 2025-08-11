@@ -22,3 +22,7 @@ strava:
 discord:
   base-url: mock
   webhook-url-path: mock
+
+en-tur:
+  base-url: mock
+  et-client-name: mock
