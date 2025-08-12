@@ -6,8 +6,12 @@
 
 .weather-card {
     min-width: 100px;
+    min-height: 180px;
     padding-top: 8px;
     padding-right: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .uv-badge {
@@ -19,4 +23,17 @@
     flex-direction: column;
     align-items: center;
     min-width: 35px;
+}
+
+.precipitation-amount {
+    min-height: 1.2em; /* reserve space for 1 line of text */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #0163BF;
+    font-weight: bold;
+}
+
+.precipitation-amount p {
+    margin: 0; /* remove default <p> spacing */
 }

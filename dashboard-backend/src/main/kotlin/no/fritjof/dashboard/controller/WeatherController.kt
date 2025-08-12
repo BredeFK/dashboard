@@ -24,10 +24,7 @@ class WeatherController(
         description = "Weather forecast for a specified place",
     )
     @ApiResponse(responseCode = "200", description = "Compact information")
-    fun compact(
-        latitude: Double = 59.9133301, // TODO remove this
-        longitude: Double = 10.7389701 // TODO remove this
-    ): ResponseEntity<WeatherForecast> {
+    fun compact(latitude: Double, longitude: Double): ResponseEntity<WeatherForecast> {
         val response = locationForecastService.getWeatherForecast(latitude, longitude)
         return ResponseEntity.ok(response)
     }

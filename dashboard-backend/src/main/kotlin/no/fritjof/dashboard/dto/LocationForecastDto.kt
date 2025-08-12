@@ -41,8 +41,11 @@ data class SummaryDto(
 )
 
 data class NextHoursDetailsDto(
-    @JsonProperty("precipitation_amount")
-    val precipitationAmount: Double,
+    @JsonProperty("precipitation_amount_min")
+    val precipitationAmountMin: Double,
+
+    @JsonProperty("precipitation_amount_max")
+    val precipitationAmountMax: Double,
 )
 
 data class InstantDto(

@@ -18,9 +18,15 @@ const apiRequest = async <T>(url: string, method: 'GET' | 'POST' | 'PUT' | 'DELE
     return response.data;
 };
 
-export const fetchWeatherForcast = async (): Promise<WeatherForecastData | null> => {
+export const fetchWeatherForcast = async (
+    latitude: number = 59.9133301,
+    longitude: number = 10.7389701
+): Promise<WeatherForecastData | null> => {
     try {
-        return await apiRequest('/api/weather/forecast', 'GET');
+        return await apiRequest(
+            `/api/weather/forecast?latitude=${latitude}&longitude=${longitude}`,
+            'GET'
+        );
     } catch (error) {
         console.error('Failed to fetch weather from backend', error);
         return null

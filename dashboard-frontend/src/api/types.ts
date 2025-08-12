@@ -5,7 +5,8 @@ export interface WeatherInstance {
     windSpeed: number;
     symbolCode?: string;
     symbolUrl?: string;
-    precipitationAmount?: number;
+    precipitationAmountMin: number | null;
+    precipitationAmountMax: number | null;
     uvIndexClearSky: number | null;
 }
 

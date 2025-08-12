@@ -13,11 +13,11 @@ export default function Dashboard() {
     const [departureBoard, setDepartureBoard] = React.useState<EnTurDepartureBoard | null>(null);
 
     React.useEffect(() => {
-        fetchStravaScoreboard().then(data => {
+        fetchStravaScoreboard(true).then(data => {
             if (data) setAthletes(data);
         });
 
-        fetchWeatherForcast().then(data => {
+        fetchWeatherForcast(60.3943055, 5.3259192).then(data => {
             if (data) setWeather(data);
         });
 

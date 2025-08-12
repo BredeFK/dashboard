@@ -10,7 +10,8 @@ data class WeatherInstance(
     val windSpeed: Double,
     val symbolCode: String?,
     val symbolUrl: String?,
-    val precipitationAmount: Double?,
+    val precipitationAmountMin: Double?,
+    val precipitationAmountMax: Double?,
     val uvIndexClearSky: Double?,
 ) {
     companion object {
@@ -24,7 +25,8 @@ data class WeatherInstance(
                 windSpeed = details.windSpeed,
                 symbolCode = nextOneHours?.summary?.symbolCode,
                 symbolUrl = if (nextOneHours != null) "https://api.met.no/images/weathericons/svg/${nextOneHours.summary.symbolCode}.svg" else null,
-                precipitationAmount = nextOneHours?.details?.precipitationAmount,
+                precipitationAmountMin = nextOneHours?.details?.precipitationAmountMin,
+                precipitationAmountMax = nextOneHours?.details?.precipitationAmountMax,
                 uvIndexClearSky = details.uvIndexClearSky,
             )
         }

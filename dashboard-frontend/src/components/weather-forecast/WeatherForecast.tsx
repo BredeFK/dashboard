@@ -24,7 +24,6 @@ export default function WeatherForecast({data, numberOfHours}: Readonly<{
 }
 
 function WeatherItem({item}: Readonly<{ item: WeatherInstance }>) {
-
     const hour = new Date(item.timestamp).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})
     return (
         <Card variant='surface' className='weather-card'>
@@ -32,10 +31,31 @@ function WeatherItem({item}: Readonly<{ item: WeatherInstance }>) {
                 <Text size='6' className='clock'>{hour}</Text>
                 <img src={item.symbolUrl} alt={item.symbolCode} width={50} height={50}/>
                 <Text size='7' weight='bold' style={{fontFamily: ''}}>{item.temperature.toFixed(0)}°</Text>
+                <PrecipitationAmount weatherInstance={item}/>
                 <UvBadge uvIndex={item.uvIndexClearSky}/>
             </Flex>
         </Card>
     )
+}
+
+function PrecipitationAmount({weatherInstance}: Readonly<{ weatherInstance: WeatherInstance }>) {
+    const shouldShow = weatherInstance.precipitationAmountMin != null &&
+        weatherInstance.precipitationAmountMax != null &&
+        !(weatherInstance.precipitationAmountMin === 0 && weatherInstance.precipitationAmountMax === 0)
+
+
+    return (
+        <div className='precipitation-amount'>
+            {shouldShow
+                ?
+                <p>{formatNumber(weatherInstance.precipitationAmountMin!)} - {formatNumber(weatherInstance.precipitationAmountMax!)}</p>
+                : null}
+        </div>
+    )
+}
+
+function formatNumber(number: number): string {
+    return number.toLocaleString('no-NO');
 }
 
 function uvIndexScale(uvIndex: number): UvIndexInfo {
