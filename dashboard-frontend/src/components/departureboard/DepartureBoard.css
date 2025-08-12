@@ -28,7 +28,16 @@
 }
 
 .estimated-call-item {
-    margin-top: 5px;
+    width: 400px;
+    max-width: 100%;
+}
+
+.estimated-call-list {
+    margin-top: 20px;
+}
+
+.departure-board-header{
+    margin-top: 20px;
 }
 
 .front-text {

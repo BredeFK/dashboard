@@ -3,7 +3,10 @@ import './DepartureBoard.css'
 import React from "react";
 import {Card, Flex, Text} from '@radix-ui/themes'
 
-export default function DepartureBoard({data}: Readonly<{ data: EnTurDepartureBoard | null }>) {
+export default function DepartureBoard({data, numberOfDepartures}: Readonly<{
+    data: EnTurDepartureBoard | null,
+    numberOfDepartures: number
+}>) {
     if (!data) {
         return (
             <div>
@@ -14,19 +17,21 @@ export default function DepartureBoard({data}: Readonly<{ data: EnTurDepartureBo
     const direction = data.estimatedCalls[0]?.boardingLocation
     return (
         <div>
-            <Flex direction='column' gap='0' align='center'>
+            <Flex direction='column' align='center' className='departure-board-header'>
                 <Text size='8'>{data.name}</Text>
                 {direction &&
                     <Text size='4' color='gray'>{direction}</Text>
                 }
             </Flex>
-            {data.estimatedCalls
-                .slice(0, 5)
-                .sort((a, b) =>
-                    new Date(a.expectedDepartureTime).getTime() - new Date(b.expectedDepartureTime).getTime())
-                .map((item) => (
-                    <EstimatedCallItem estimatedCall={item} key={`${item.frontText}-${item.aimedDepartureTime}`}/>
-                ))}
+            <Flex direction='column' gap='2' align='center' className='estimated-call-list'>
+                {data.estimatedCalls
+                    .slice(0, numberOfDepartures)
+                    .sort((a, b) =>
+                        new Date(a.expectedDepartureTime).getTime() - new Date(b.expectedDepartureTime).getTime())
+                    .map((item) => (
+                        <EstimatedCallItem estimatedCall={item} key={`${item.frontText}-${item.aimedDepartureTime}`}/>
+                    ))}
+            </Flex>
         </div>
     )
 }

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.WebClient
 import java.time.LocalDateTime
 import java.time.OffsetDateTime
-import java.util.*
+import java.util.TimeZone
 
 @Service
 class LocationForecastService(@Qualifier("locationForecastWebClient") private val webClient: WebClient) {
@@ -32,7 +32,11 @@ class LocationForecastService(@Qualifier("locationForecastWebClient") private va
 
     fun getWeatherForecast(latitude: Double, longitude: Double): WeatherForecast {
         val properties = getComplete(latitude, longitude)?.properties
-        val weatherSeries: List<WeatherInstance>? = properties?.timeSeries?.map {
+        val weatherSeries: List<WeatherInstance>? = properties?.timeSeries?.filter {
+            val timeStamp = toLocalDateTime(it.time)
+            timeStamp.isAfter(LocalDateTime.now().minusHours(1))
+                    && timeStamp.isBefore(LocalDateTime.now().plusHours(12))
+        }?.map {
             WeatherInstance.toWeatherInstance(it, toLocalDateTime(it.time))
         }
 

@@ -19,23 +19,21 @@ export default function StravaLeaderBoard({data}: Readonly<{ data: Athlete[] | n
     } else {
         const headers = ['Plass', 'Utøver', 'Distanse', 'Økter', 'Lengste', 'Snittfart', 'Høydemeter']
         return (
-            <div>
-                <Table.Root size='3' variant={'surface'}>
-                    <Table.Header>
-                        <Table.Row>
-                            {headers.map(header =>
-                                <Table.ColumnHeaderCell key={header} className='leaderboard-header'>
-                                    {header}
-                                </Table.ColumnHeaderCell>)}
-                        </Table.Row>
-                    </Table.Header>
-                    <Table.Body>
-                        {data.map((athlete, index) => (
-                            <AthleteItem athlete={athlete} rank={index + 1} key={athlete.fullName}/>
-                        ))}
-                    </Table.Body>
-                </Table.Root>
-            </div>
+            <Table.Root size='3' variant={'surface'} className='leaderboard-table'>
+                <Table.Header>
+                    <Table.Row>
+                        {headers.map(header =>
+                            <Table.ColumnHeaderCell key={header} className='leaderboard-header'>
+                                {header}
+                            </Table.ColumnHeaderCell>)}
+                    </Table.Row>
+                </Table.Header>
+                <Table.Body>
+                    {data.map((athlete, index) => (
+                        <AthleteItem athlete={athlete} rank={index + 1} key={athlete.fullName}/>
+                    ))}
+                </Table.Body>
+            </Table.Root>
         )
     }
 }

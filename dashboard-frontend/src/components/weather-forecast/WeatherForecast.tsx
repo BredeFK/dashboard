@@ -3,7 +3,10 @@ import React from "react";
 import {Card, Flex, Text} from "@radix-ui/themes";
 import './WeatherForecast.css'
 
-export default function WeatherForecast({data}: Readonly<{ data: WeatherForecastData | null }>) {
+export default function WeatherForecast({data, numberOfHours}: Readonly<{
+    data: WeatherForecastData | null,
+    numberOfHours: number
+}>) {
     if (!data) {
         return (
             <div>
@@ -15,7 +18,7 @@ export default function WeatherForecast({data}: Readonly<{ data: WeatherForecast
     return (
         <div>
             <Flex gap="3" align="center" style={{overflowX: 'auto'}}>
-                {data.weatherSeries.slice(0, 6).map((item) => (
+                {data.weatherSeries.slice(0, numberOfHours).map((item) => (
                     <WeatherItem item={item} key={item.timestamp}/>
                 ))}
             </Flex>
@@ -28,7 +31,7 @@ function WeatherItem({item}: Readonly<{ item: WeatherInstance }>) {
     const hour = new Date(item.timestamp).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})
     return (
         <Card variant='surface' className='weather-card'>
-            <Flex direction='column' gap='1' align='center'>
+            <Flex direction='column' align='center'>
                 <Text size='6' className='clock'>{hour}</Text>
                 <img src={item.symbolUrl} alt={item.symbolCode} width={50} height={50}/>
                 <Text size='7' weight='bold' style={{fontFamily: ''}}>{item.temperature.toFixed(0)}°</Text>

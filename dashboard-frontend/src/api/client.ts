@@ -27,9 +27,9 @@ export const fetchWeatherForcast = async (): Promise<WeatherForecastData | null>
     }
 }
 
-export const fetchStravaScoreboard = async (): Promise<Athlete[] | null> => {
+export const fetchStravaScoreboard = async (mock: boolean = false): Promise<Athlete[] | null> => {
     try {
-        return await apiRequest('/api/strava/scoreboard?mock=true', 'GET');
+        return await apiRequest(`/api/strava/scoreboard?mock=${mock}`, 'GET');
     } catch (error) {
         console.error('Failed to fetch Strava scoreboard from backend', error);
         return null;
