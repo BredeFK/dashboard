@@ -58,15 +58,16 @@ function uvIndexScale(uvIndex: number): UvIndexInfo {
 }
 
 
-function UvBadge(uvIndex: number | null | undefined) {
-    if (uvIndex === null || uvIndex === undefined) {
+function UvBadge(uvIndex: number | null) {
+    if (uvIndex === null) {
         return null;
     }
-    const uvBadgeInfo = uvIndexScale(uvIndex);
+    const uvIndexRounded = parseInt(uvIndex.toFixed(0))
+    const uvBadgeInfo = uvIndexScale(uvIndexRounded);
     return (
         <div title={uvBadgeInfo.description}>
             <div className='uv-badge' style={{backgroundColor: uvBadgeInfo.colour}}>
-                <Text size='2' color='gray'>{uvIndex?.toFixed(0)}</Text>
+                <Text size='2'>{uvIndexRounded}</Text>
             </div>
         </div>
     )
