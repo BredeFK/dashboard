@@ -7,14 +7,12 @@ export default function StravaLeaderBoard({data}: Readonly<{ data: Athlete[] | n
     if (!data) {
         return (
             <div>
-                <h2>Toppliste</h2>
                 <p>Klarte ikke å finne toppliste...</p>
             </div>
         )
     } else if (data.length === 0) {
         return (
             <div>
-                <h2>Toppliste</h2>
                 <p>Ingen aktiviteter i Strava...</p>
             </div>
         )
@@ -22,7 +20,6 @@ export default function StravaLeaderBoard({data}: Readonly<{ data: Athlete[] | n
         const headers = ['Plass', 'Utøver', 'Distanse', 'Økter', 'Lengste', 'Snittfart', 'Høydemeter']
         return (
             <div>
-                <h2>Ukens beste</h2>
                 <Table.Root size='3' variant={'surface'}>
                     <Table.Header>
                         <Table.Row>

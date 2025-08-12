@@ -7,7 +7,6 @@ export default function DepartureBoard({data}: Readonly<{ data: EnTurDepartureBo
     if (!data) {
         return (
             <div>
-                <h2>Avganger</h2>
                 <p>Klarte ikke å finne avganger...</p>
             </div>
         )
@@ -15,18 +14,19 @@ export default function DepartureBoard({data}: Readonly<{ data: EnTurDepartureBo
     const direction = data.estimatedCalls[0]?.boardingLocation
     return (
         <div>
-            <h2>Avganger fra <i>{data.name}</i></h2>
-
-            {direction && <p>{direction}</p>}
-            <ul>
-                {data.estimatedCalls
-                    .slice(0, 5)
-                    .sort((a, b) =>
-                        new Date(a.expectedDepartureTime).getTime() - new Date(b.expectedDepartureTime).getTime())
-                    .map((item) => (
-                        <EstimatedCallItem estimatedCall={item} key={`${item.frontText}-${item.aimedDepartureTime}`}/>
-                    ))}
-            </ul>
+            <Flex direction='column' gap='0' align='center'>
+                <Text size='8'>{data.name}</Text>
+                {direction &&
+                    <Text size='4' color='gray'>{direction}</Text>
+                }
+            </Flex>
+            {data.estimatedCalls
+                .slice(0, 5)
+                .sort((a, b) =>
+                    new Date(a.expectedDepartureTime).getTime() - new Date(b.expectedDepartureTime).getTime())
+                .map((item) => (
+                    <EstimatedCallItem estimatedCall={item} key={`${item.frontText}-${item.aimedDepartureTime}`}/>
+                ))}
         </div>
     )
 }

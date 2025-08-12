@@ -1,13 +1,12 @@
 import {WeatherForecastData, WeatherInstance} from "../../api/types";
 import React from "react";
-import {Flex, Text} from "@radix-ui/themes";
+import {Card, Flex, Text} from "@radix-ui/themes";
 import './WeatherForecast.css'
 
 export default function WeatherForecast({data}: Readonly<{ data: WeatherForecastData | null }>) {
     if (!data) {
         return (
             <div>
-                <h2>Værmelding</h2>
                 <p>Klarte ikke å finne værmeldingen...</p>
             </div>
         )
@@ -15,7 +14,6 @@ export default function WeatherForecast({data}: Readonly<{ data: WeatherForecast
 
     return (
         <div>
-            <h2>Værmelding</h2>
             <Flex gap="3" align="center" style={{overflowX: 'auto'}}>
                 {data.weatherSeries.slice(0, 6).map((item) => (
                     <WeatherItem item={item} key={item.timestamp}/>
@@ -27,14 +25,16 @@ export default function WeatherForecast({data}: Readonly<{ data: WeatherForecast
 
 function WeatherItem({item}: Readonly<{ item: WeatherInstance }>) {
 
-    const hour = new Date(item.timestamp).toLocaleTimeString([], {hour: '2-digit'})
+    const hour = new Date(item.timestamp).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})
     return (
-        <Flex direction='column' gap='1' align='center' className='weather-item'>
-            <Text size='2'>{hour}</Text>
-            <img src={item.symbolUrl} alt={item.symbolCode} width={32} height={32}/>
-            <Text size='2'>{item.temperature.toFixed(0)}°</Text>
-            {UvBadge(item.uvIndexClearSky ?? null)}
-        </Flex>
+        <Card variant='surface' className='weather-card'>
+            <Flex direction='column' gap='1' align='center'>
+                <Text size='6' className='clock'>{hour}</Text>
+                <img src={item.symbolUrl} alt={item.symbolCode} width={50} height={50}/>
+                <Text size='7' weight='bold' style={{fontFamily: ''}}>{item.temperature.toFixed(0)}°</Text>
+                <UvBadge uvIndex={item.uvIndexClearSky}/>
+            </Flex>
+        </Card>
     )
 }
 
@@ -58,7 +58,7 @@ function uvIndexScale(uvIndex: number): UvIndexInfo {
 }
 
 
-function UvBadge(uvIndex: number | null) {
+function UvBadge({uvIndex}: Readonly<{ uvIndex: number | null }>) {
     if (uvIndex === null) {
         return null;
     }
@@ -67,7 +67,7 @@ function UvBadge(uvIndex: number | null) {
     return (
         <div title={uvBadgeInfo.description}>
             <div className='uv-badge' style={{backgroundColor: uvBadgeInfo.colour}}>
-                <Text size='2'>{uvIndexRounded}</Text>
+                <Text size='6' weight='bold'>{uvIndexRounded}</Text>
             </div>
         </div>
     )
