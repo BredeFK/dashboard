@@ -2,14 +2,14 @@ import {WeatherForecastData, WeatherInstance} from "../../api/types";
 import React from "react";
 import {Card, Flex, Text} from "@radix-ui/themes";
 import './WeatherForecast.css'
-import NotFound from "../utils/NotFound";
+import {NotFoundText} from "../utils/NotFoundText";
 
 export default function WeatherForecast({data, numberOfHours}: Readonly<{
     data: WeatherForecastData | null,
     numberOfHours: number
 }>) {
     if (!data) {
-        return <NotFound text='Klarte ikke å finne værmeldingen..'/>
+        return <NotFoundText text='Klarte ikke å finne værmeldingen..'/>
 
     }
     return (

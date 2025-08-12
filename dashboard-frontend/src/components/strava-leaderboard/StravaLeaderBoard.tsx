@@ -2,11 +2,11 @@ import {Athlete} from "../../api/types";
 import React from "react";
 import {Table} from "@radix-ui/themes";
 import './StravaLeaderBoard.css'
-import NotFound from "../utils/NotFound";
+import {NotFoundText} from "../utils/NotFoundText";
 
 export default function StravaLeaderBoard({data}: Readonly<{ data: Athlete[] | null }>) {
     if (!data) {
-        return <NotFound text='Klarte ikke å finne toppliste..'/>
+        return <NotFoundText text='Klarte ikke å finne toppliste..'/>
 
     } else if (data.length === 0) {
         return (
@@ -15,11 +15,11 @@ export default function StravaLeaderBoard({data}: Readonly<{ data: Athlete[] | n
             </div>
         )
     } else {
-        const headers = ['Plass', 'Utøver', 'Distanse', 'Økter', 'Lengste', 'Snittfart', 'Høydemeter']
+        const headers = [null, 'Utøver', 'Distanse', 'Økter', 'Lengste', 'Snittfart', 'HøydeM.']
         return (
             <Table.Root size='3' variant={'surface'} className='leaderboard-table'>
                 <Table.Header>
-                    <Table.Row>
+                    <Table.Row className='athlete-header'>
                         {headers.map(header =>
                             <Table.ColumnHeaderCell key={header} className='leaderboard-header'>
                                 {header}
@@ -38,7 +38,7 @@ export default function StravaLeaderBoard({data}: Readonly<{ data: Athlete[] | n
 
 function AthleteItem({athlete, rank}: Readonly<{ athlete: Athlete, rank: number }>) {
     return (
-        <Table.Row>
+        <Table.Row className='athlete-row'>
             <Table.RowHeaderCell>{rank}</Table.RowHeaderCell>
             <Table.Cell>{athlete.fullName}</Table.Cell>
             <Table.Cell>{formatDistance(athlete.totalDistanceFormatted)}</Table.Cell>

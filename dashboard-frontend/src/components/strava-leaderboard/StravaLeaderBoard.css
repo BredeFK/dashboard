@@ -8,5 +8,13 @@
 }
 
 .unit-text {
-    font-size: 12px;
+    font-size: 13px;
+}
+
+.athlete-row {
+    font-size: 18px;
+}
+
+.athlete-header {
+    font-size: 22px;
 }

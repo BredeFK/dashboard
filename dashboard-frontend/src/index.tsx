@@ -3,15 +3,26 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import "@radix-ui/themes/styles.css";
-import {Theme} from "@radix-ui/themes";
+import '@radix-ui/themes/styles.css';
+import {Theme} from '@radix-ui/themes';
+
+type AccentColor = NonNullable<React.ComponentProps<typeof Theme>['accentColor']>;
+const accentColors: Readonly<AccentColor[]> = [
+    'gray', 'gold', 'bronze', 'brown', 'yellow', 'amber', 'orange', 'tomato',
+    'red', 'ruby', 'crimson', 'pink', 'plum', 'purple', 'violet', 'iris',
+    'indigo', 'blue', 'cyan', 'teal', 'jade', 'green', 'grass', 'lime', 'mint', 'sky'
+];
+const color: string | null = new URLSearchParams(window.location.search).get('color');
+let accentColor: AccentColor = (color && accentColors.includes(color as AccentColor))
+    ? color as AccentColor
+    : 'sky';
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
 );
 root.render(
     <React.StrictMode>
-        <Theme appearance='dark' accentColor='sky' grayColor='auto' radius='large'>
+        <Theme appearance='dark' accentColor={accentColor} grayColor='auto' radius='large'>
             <App/>
         </Theme>
     </React.StrictMode>
