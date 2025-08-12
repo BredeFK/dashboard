@@ -2,17 +2,15 @@ import {EnTurDepartureBoard, EstimatedCall} from "../../api/types";
 import './DepartureBoard.css'
 import React from "react";
 import {Card, Flex, Text} from '@radix-ui/themes'
+import NotFound from "../utils/NotFound";
 
 export default function DepartureBoard({data, numberOfDepartures}: Readonly<{
     data: EnTurDepartureBoard | null,
     numberOfDepartures: number
 }>) {
     if (!data) {
-        return (
-            <div>
-                <p>Klarte ikke å finne avganger...</p>
-            </div>
-        )
+        return <NotFound text='Klarte ikke å finne avganger..'/>
+
     }
     const direction = data.estimatedCalls[0]?.boardingLocation
     return (
