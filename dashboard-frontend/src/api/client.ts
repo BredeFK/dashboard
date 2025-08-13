@@ -2,7 +2,7 @@ import axios, {AxiosResponse} from 'axios';
 import {Athlete, EnTurDepartureBoard, WeatherForecastData} from "./types";
 
 const apiClient = axios.create({
-    baseURL: 'http://localhost:8080',
+    baseURL: process.env.REACT_APP_BACKEND_BASE_URL || 'http://localhost:8080',
     headers: {
         'Content-Type': 'application/json',
     }

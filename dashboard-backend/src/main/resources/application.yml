@@ -2,8 +2,15 @@ spring:
   application:
     name: dashboard
 
+server:
+  address: 0.0.0.0
+  port: 8080
+
 app:
   version: '@project.version@'
+
+cors:
+  allowed-origin: ${FRONTEND_ALLOWED_ORIGIN}
 
 location-forecast:
   base-url: https://api.met.no/weatherapi/locationforecast/2.0
