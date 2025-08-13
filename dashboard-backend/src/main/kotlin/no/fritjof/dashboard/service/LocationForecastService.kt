@@ -13,7 +13,10 @@ import java.time.OffsetDateTime
 import java.util.TimeZone
 
 @Service
-class LocationForecastService(@Qualifier("locationForecastWebClient") private val webClient: WebClient) {
+class LocationForecastService(
+    @Qualifier("locationForecastWebClient") private val webClient: WebClient,
+    private val nominatimService: NominatimService,
+) {
 
     private val log: Logger = LoggerFactory.getLogger(javaClass)
 
@@ -40,10 +43,29 @@ class LocationForecastService(@Qualifier("locationForecastWebClient") private va
             WeatherInstance.toWeatherInstance(it, toLocalDateTime(it.time))
         }
 
+        val locationName = getLocationName(latitude, longitude)
+
         return WeatherForecast(
             lastUpdated = toLocalDateTime(properties?.meta?.updatedAt),
+            locationName = locationName,
             weatherSeries = weatherSeries ?: emptyList()
         )
+    }
+
+    private fun getLocationName(latitude: Double, longitude: Double): String {
+        val location = nominatimService.searchCoordinates(latitude, longitude)
+        if (location?.address != null) {
+            val address = location.address
+            val name = listOfNotNull(
+                address.cityDistrict,
+                address.city,
+                address.county
+            ).joinToString(", ")
+            if (name.isNotBlank()) {
+                return name
+            }
+        }
+        return location?.displayName ?: "Ukjent sted"
     }
 
     private fun toLocalDateTime(datetime: String?): LocalDateTime {

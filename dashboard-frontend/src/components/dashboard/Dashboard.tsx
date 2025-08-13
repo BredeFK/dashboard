@@ -3,21 +3,29 @@ import WeatherForecast from "../weather-forecast/WeatherForecast";
 import StravaLeaderBoard from "../strava-leaderboard/StravaLeaderBoard";
 import DepartureBoard from "../departureboard/DepartureBoard";
 import React from "react";
-import {Athlete, EnTurDepartureBoard, WeatherForecastData} from "../../api/types";
+import {Athlete, Coordinates, EnTurDepartureBoard, WeatherForecastData} from "../../api/types";
 import {fetchPublicTransportDepartureBoard, fetchStravaScoreboard, fetchWeatherForcast} from "../../api/client";
 import {Flex} from "@radix-ui/themes";
+
 
 export default function Dashboard() {
     const [athletes, setAthletes] = React.useState<Athlete[] | null>(null);
     const [weather, setWeather] = React.useState<WeatherForecastData | null>(null);
     const [departureBoard, setDepartureBoard] = React.useState<EnTurDepartureBoard | null>(null);
 
+    const places: Coordinates[] = [
+        {latitude: 60.394, longitude: 5.325}, // Bergen
+        {latitude: 59.913, longitude: 10.738}, // Oslo
+        {latitude: 59.807, longitude: 10.021}, // Krokstadelva
+        {latitude: 27.958, longitude: -15.606}, // Gran Canaria
+    ]
+
     React.useEffect(() => {
         fetchStravaScoreboard().then(data => {
             if (data) setAthletes(data);
         });
 
-        fetchWeatherForcast(60.3943055, 5.3259192).then(data => {
+        fetchWeatherForcast().then(data => {
             if (data) setWeather(data);
         });
 

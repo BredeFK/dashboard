@@ -4,5 +4,6 @@ import java.time.LocalDateTime
 
 data class WeatherForecast(
     val lastUpdated: LocalDateTime,
+    val locationName: String,
     val weatherSeries: List<WeatherInstance>
 )

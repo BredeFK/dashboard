@@ -34,24 +34,26 @@ class StravaService(
 
     private val logger: Logger = LoggerFactory.getLogger(javaClass)
 
-    @Cacheable("athletes")
+    @Cacheable("athletes", unless = "#mock == true")
     fun getScoreBoard(mock: Boolean): List<Athlete> {
-        if (mock) {
-            val gson = Gson()
-            logger.info("Returning mock leaderboard")
-
-            val resourceStream = Thread.currentThread().contextClassLoader
-                .getResourceAsStream("strava-mock-file.json")
-                ?: throw RuntimeException("Mock file not found on classpath")
-
-            val json = resourceStream.bufferedReader(StandardCharsets.UTF_8).use { it.readText() }
-            return gson.fromJson(json, Array<Athlete>::class.java).toList()
-        }
+        if (mock) return mockAthletes()
 
         val thisMonday = getThisWeeksMondayUTC()
         val activities = getClubActivities(after = thisMonday)
 
         return convertActivitiesToListOfAthletes(activities)
+    }
+
+    private fun mockAthletes(): List<Athlete> {
+        val gson = Gson()
+        logger.info("Returning mock leaderboard")
+
+        val resourceStream = Thread.currentThread().contextClassLoader
+            .getResourceAsStream("strava-mock-file.json")
+            ?: throw RuntimeException("Mock file not found on classpath")
+
+        val json = resourceStream.bufferedReader(StandardCharsets.UTF_8).use { it.readText() }
+        return gson.fromJson(json, Array<Athlete>::class.java).toList()
     }
 
     fun getLastWeeksScoreBoard(): List<Athlete> {

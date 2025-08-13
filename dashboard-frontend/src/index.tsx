@@ -20,7 +20,6 @@ let accentColor: AccentColor = (color && accentColors.includes(color as AccentCo
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
 );
-console.log(process.env.REACT_APP_ENVIRONMENT);
 root.render(
     process.env.REACT_APP_ENVIRONMENT === 'development' ? (
         <Theme appearance='dark' accentColor={accentColor} grayColor='auto' radius='large'>

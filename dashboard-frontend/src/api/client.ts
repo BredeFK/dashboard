@@ -1,5 +1,5 @@
 import axios, {AxiosResponse} from 'axios';
-import {Athlete, EnTurDepartureBoard, WeatherForecastData} from "./types";
+import {Athlete, Coordinates, EnTurDepartureBoard, WeatherForecastData} from "./types";
 
 const apiClient = axios.create({
     baseURL: process.env.REACT_APP_BACKEND_BASE_URL || 'http://localhost:8080',
@@ -19,12 +19,11 @@ const apiRequest = async <T>(url: string, method: 'GET' | 'POST' | 'PUT' | 'DELE
 };
 
 export const fetchWeatherForcast = async (
-    latitude: number = 59.9133301,
-    longitude: number = 10.7389701
+    coordinates: Coordinates = {latitude: 59.913, longitude: 10.738}, // Oslo
 ): Promise<WeatherForecastData | null> => {
     try {
         return await apiRequest(
-            `/api/weather/forecast?latitude=${latitude}&longitude=${longitude}`,
+            `/api/weather/forecast?latitude=${coordinates.latitude}&longitude=${coordinates.longitude}`,
             'GET'
         );
     } catch (error) {

@@ -7,8 +7,8 @@
 .weather-card {
     min-width: 100px;
     min-height: 180px;
-    padding-top: 8px;
-    padding-right: 8px;
+    padding-top: 20px;
+    padding-right: 10px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -36,4 +36,8 @@
 
 .precipitation-amount p {
     margin: 0; /* remove default <p> spacing */
+}
+
+.location-title {
+    padding-bottom: 13px;
 }

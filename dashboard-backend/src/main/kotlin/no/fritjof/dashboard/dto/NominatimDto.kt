@@ -16,6 +16,19 @@ data class NominatimDto(
     val name: String,
 
     @JsonProperty("display_name")
-    val displayName: String
+    val displayName: String,
 
+    val address: AddressDto?
+)
+
+data class AddressDto(
+    @JsonProperty("city_district")
+    val cityDistrict: String?,
+    val city: String?,
+    val municipality: String?,
+    val county: String?,
+    val country: String,
+
+    @JsonProperty("country_code")
+    val countryCode: String,
 )

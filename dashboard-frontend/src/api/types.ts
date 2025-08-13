@@ -12,6 +12,7 @@ export interface WeatherInstance {
 
 export interface WeatherForecastData {
     lastUpdated: string;
+    locationName: string;
     weatherSeries: WeatherInstance[];
 }
 
@@ -47,4 +48,9 @@ export interface EstimatedCall {
 interface Presentation {
     colour: string;
     textColour: string;
+}
+
+export interface Coordinates {
+    latitude: number,
+    longitude: number
 }

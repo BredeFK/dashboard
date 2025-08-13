@@ -12,9 +12,15 @@ export default function WeatherForecast({data, numberOfHours}: Readonly<{
         return <NotFoundText text='Klarte ikke å finne værmeldingen..'/>
 
     }
+    const lastUpdated = formatTime(data.lastUpdated)
     return (
         <div>
-            <Flex gap="3" align="center" style={{overflowX: 'auto'}}>
+            <Flex className='location-title' direction='column'>
+                <Text size='6' weight='bold'>{data.locationName}</Text>
+                <Text size='1'>Oppdatert: {lastUpdated} </Text>
+            </Flex>
+
+            <Flex gap="3" align="center">
                 {data.weatherSeries.slice(0, numberOfHours).map((item) => (
                     <WeatherItem item={item} key={item.timestamp}/>
                 ))}
@@ -24,13 +30,13 @@ export default function WeatherForecast({data, numberOfHours}: Readonly<{
 }
 
 function WeatherItem({item}: Readonly<{ item: WeatherInstance }>) {
-    const hour = new Date(item.timestamp).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})
+    const hour = formatTime(item.timestamp)
     return (
         <Card variant='surface' className='weather-card'>
             <Flex direction='column' align='center'>
                 <Text size='6' className='clock'>{hour}</Text>
                 <img src={item.symbolUrl} alt={item.symbolCode} width={50} height={50}/>
-                <Text size='7' weight='bold' style={{fontFamily: ''}}>{item.temperature.toFixed(0)}°</Text>
+                <Text size='6' weight='bold'>{item.temperature.toFixed(0)}°</Text>
                 <PrecipitationAmount weatherInstance={item}/>
                 <UvBadge uvIndex={item.uvIndexClearSky}/>
             </Flex>
@@ -56,6 +62,10 @@ function PrecipitationAmount({weatherInstance}: Readonly<{ weatherInstance: Weat
 
 function formatNumber(number: number): string {
     return number.toLocaleString('no-NO');
+}
+
+function formatTime(date: string): string {
+    return new Date(date).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})
 }
 
 function uvIndexScale(uvIndex: number): UvIndexInfo {
@@ -87,7 +97,7 @@ function UvBadge({uvIndex}: Readonly<{ uvIndex: number | null }>) {
     return (
         <div title={uvBadgeInfo.description}>
             <div className='uv-badge' style={{backgroundColor: uvBadgeInfo.colour}}>
-                <Text size='6' weight='bold'>{uvIndexRounded}</Text>
+                <Text size='4' weight='bold'>{uvIndexRounded}</Text>
             </div>
         </div>
     )
