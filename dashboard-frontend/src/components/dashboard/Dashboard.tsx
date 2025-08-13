@@ -21,19 +21,38 @@ export default function Dashboard() {
     ]
 
     React.useEffect(() => {
-        fetchStravaScoreboard().then(data => {
-            if (data) setAthletes(data);
-        });
 
-        fetchWeatherForcast().then(data => {
-            if (data) setWeather(data);
-        });
+        const fetchAthletes = () =>
+            fetchStravaScoreboard().then(data => {
+                if (data) setAthletes(data);
+            });
 
-        fetchPublicTransportDepartureBoard().then(data => {
-            if (data) setDepartureBoard(data);
-        })
+        const fetchWeather = () =>
+            fetchWeatherForcast().then(data => {
+                if (data) setWeather(data);
+            });
+
+        const fetchDepartures = () =>
+            fetchPublicTransportDepartureBoard().then(data => {
+                if (data) setDepartureBoard(data);
+            })
+
+        fetchAthletes();
+        fetchWeather();
+        fetchDepartures();
+
+        const athletesInterval = setInterval(fetchAthletes, 5 * 60_000);
+        const weatherInterval = setInterval(fetchWeather, 5 * 60_000);
+        const departuresInterval = setInterval(fetchDepartures, 60_000);
+
+        return () => {
+            clearInterval(athletesInterval);
+            clearInterval(weatherInterval);
+            clearInterval(departuresInterval);
+        }
 
     }, []);
+
     return (
         <div className='dashboard'>
             <Flex className='module weather' align='center'>

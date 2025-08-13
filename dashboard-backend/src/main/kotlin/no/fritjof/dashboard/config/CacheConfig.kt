@@ -15,7 +15,7 @@ class CacheConfig {
 
         val athletesCache = Caffeine.newBuilder()
             .maximumSize(50)
-            .expireAfterWrite(5, TimeUnit.MINUTES)
+            .expireAfterWrite(295, TimeUnit.SECONDS)
             .buildAsync<Any, Any>()
 
         val locationsCache = Caffeine.newBuilder()
@@ -24,12 +24,12 @@ class CacheConfig {
 
         val weatherForecastCache = Caffeine.newBuilder()
             .maximumSize(200)
-            .expireAfterWrite(5, TimeUnit.MINUTES)
+            .expireAfterWrite(295, TimeUnit.SECONDS)
             .buildAsync<Any, Any>()
 
         val departureBoardCache = Caffeine.newBuilder()
             .maximumSize(100)
-            .expireAfterWrite(1, TimeUnit.MINUTES)
+            .expireAfterWrite(55, TimeUnit.SECONDS)
             .buildAsync<Any, Any>()
 
         caffeineCacheManager.registerCustomCache("athletes", athletesCache)
