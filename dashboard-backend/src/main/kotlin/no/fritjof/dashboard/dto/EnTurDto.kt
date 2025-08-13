@@ -8,12 +8,14 @@ data class EnTurDto(
 )
 
 data class EnTurDataDto(
-    val stopPlace: StopPlaceDto
+    val quay: QuayDto
 )
 
-data class StopPlaceDto(
+data class QuayDto(
     val id: String,
     val name: String,
+    val description: String?,
+    val publicCode: String?,
     val estimatedCalls: List<EstimatedCallDto>
 )
 
@@ -29,19 +31,11 @@ data class EstimatedCallDto(
     val forBoarding: Boolean,
     val forAlighting: Boolean,
     val destinationDisplay: DestinationDisplayDto,
-    val quay: QuayDto,
     val serviceJourney: ServiceJourneyDto
 )
 
 data class DestinationDisplayDto(
     val frontText: String
-)
-
-data class QuayDto(
-    val id: String,
-    val name: String,
-    val description: String?,
-    val publicCode: String?
 )
 
 data class ServiceJourneyDto(

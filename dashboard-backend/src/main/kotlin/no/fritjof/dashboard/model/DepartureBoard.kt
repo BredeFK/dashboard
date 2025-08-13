@@ -5,20 +5,21 @@ import no.fritjof.dashboard.dto.EnTurDto
 data class DepartureBoard(
     val id: String,
     val name: String,
+    val description: String?,
     val estimatedCalls: List<EstimatedCall>,
 ) {
     companion object {
-        fun toDepartureBoard(enTurDto: EnTurDto, quayId: String): DepartureBoard {
+        fun toDepartureBoard(enTurDto: EnTurDto): DepartureBoard {
             val estimatedCalls =
-                enTurDto.data.stopPlace.estimatedCalls.filter {
-                    it.serviceJourney.journeyPattern.line.authority.name == "Ruter" &&
-                            it.quay.id == quayId
+                enTurDto.data.quay.estimatedCalls.filter {
+                    it.serviceJourney.journeyPattern.line.authority.name == "Ruter"
                 }.map {
                     EstimatedCall.toEstimatedCall(it)
                 }
             return DepartureBoard(
-                id = enTurDto.data.stopPlace.id,
-                name = enTurDto.data.stopPlace.name,
+                id = enTurDto.data.quay.id,
+                name = enTurDto.data.quay.name,
+                description = enTurDto.data.quay.description,
                 estimatedCalls = estimatedCalls
             )
         }

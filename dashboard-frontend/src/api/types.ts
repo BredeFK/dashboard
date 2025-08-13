@@ -31,6 +31,7 @@ export interface Athlete {
 export interface EnTurDepartureBoard {
     id: string;
     name: string;
+    description?: string;
     estimatedCalls: EstimatedCall[];
 }
 
@@ -41,7 +42,6 @@ export interface EstimatedCall {
     frontText: string;
     lineNumber: string;
     transportMode: string;
-    boardingLocation?: string;
     presentation?: Presentation;
 }
 

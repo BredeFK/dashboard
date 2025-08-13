@@ -41,9 +41,9 @@ export const fetchStravaScoreboard = async (mock: boolean = false): Promise<Athl
     }
 }
 
-export const fetchPublicTransportDepartureBoard = async (stopPlaceId: string = 'NSR:StopPlace:6006', quayId: string = 'NSR:Quay:10985'): Promise<EnTurDepartureBoard | null> => {
+export const fetchPublicTransportDepartureBoard = async (quayId: string = 'NSR:Quay:10985'): Promise<EnTurDepartureBoard | null> => {
     try {
-        return await apiRequest(`/api/public-transport/departure-board?stopPlaceId=${stopPlaceId}&quayId=${quayId}`, 'GET');
+        return await apiRequest(`/api/public-transport/departure-board?quayId=${quayId}`, 'GET');
     } catch (error) {
         console.error('Failed to fetch departure board from backend', error);
         return null;

@@ -12,13 +12,12 @@ export default function DepartureBoard({data, numberOfDepartures}: Readonly<{
         return <NotFoundText text='Klarte ikke å finne avganger..'/>
 
     }
-    const direction = data.estimatedCalls[0]?.boardingLocation
     return (
         <div>
             <Flex direction='column' align='center' className='departure-board-header'>
                 <Text size='8'>{data.name}</Text>
-                {direction &&
-                    <Text size='4' color='gray'>{direction}</Text>
+                {data.description &&
+                    <Text size='4' color='gray'>{data.description}</Text>
                 }
             </Flex>
             <Flex direction='column' gap='2' align='center' className='estimated-call-list'>

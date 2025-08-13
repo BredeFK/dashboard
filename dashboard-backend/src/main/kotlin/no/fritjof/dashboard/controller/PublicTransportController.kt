@@ -21,16 +21,15 @@ class PublicTransportController(
     @GetMapping("departure-board", produces = [MediaType.APPLICATION_JSON_VALUE])
     @Operation(
         summary = "Get departure board",
-        description = "Returns a list of departure times for a specified stopPlace",
+        description = "Returns a list of departure times for a specified quayId (bus/train/metro/tram-platform)",
     )
     @ApiResponse(responseCode = "200", description = "OK")
     fun getDepartureBoard(
-        stopPlaceId: String,
         quayId: String,
         timeRange: Long = 72100,
-        numberOfDepartures: Int = 20 // Not accurate number after filtering
+        numberOfDepartures: Int = 10
     ): ResponseEntity<DepartureBoard> {
-        val response = enTurService.getDepartureBoard(stopPlaceId, quayId, timeRange, numberOfDepartures)
+        val response = enTurService.getDepartureBoard(quayId, timeRange, numberOfDepartures)
         return ResponseEntity.ok(response)
     }
 }

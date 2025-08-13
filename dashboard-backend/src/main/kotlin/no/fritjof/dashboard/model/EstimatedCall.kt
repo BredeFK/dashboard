@@ -11,7 +11,6 @@ data class EstimatedCall(
     val frontText: String,
     val lineNumber: String,
     val transportMode: String,
-    val boardingLocation: String?,
     val presentation: Presentation
 ) {
     companion object {
@@ -42,7 +41,6 @@ data class EstimatedCall(
                 frontText = estimatedCallDto.destinationDisplay.frontText,
                 lineNumber = line.publicCode,
                 transportMode = line.transportMode,
-                boardingLocation = estimatedCallDto.quay.description,
                 presentation = presentation
             )
         }

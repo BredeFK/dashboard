@@ -15,67 +15,71 @@ class EnTurService(
 ) {
     private val log: Logger = LoggerFactory.getLogger(javaClass)
 
-    @Cacheable("departureBoard", key = "#stopPlaceId + #quayId + #timeRange + #numberOfDepartures")
+    @Cacheable("departureBoard", key = "#quayId + #timeRange + #numberOfDepartures")
     fun getDepartureBoard(
-        stopPlaceId: String,
         quayId: String,
         timeRange: Long,
         numberOfDepartures: Int
     ): DepartureBoard? {
-        val query = getDepartureBoardBody(stopPlaceId, timeRange, numberOfDepartures)
+        val query = getDepartureBoardBody(quayId, timeRange, numberOfDepartures)
         val response = webclient.post()
             .bodyValue(query)
             .retrieve()
             .bodyToMono(EnTurDto::class.java)
             .block()
         if (response == null) return null
-        return DepartureBoard.toDepartureBoard(response, quayId)
+        return DepartureBoard.toDepartureBoard(response)
     }
 
-    private fun getDepartureBoardBody(stopPlaceId: String, timeRange: Long, numberOfDepartures: Int): Query {
+    private fun getDepartureBoardBody(quayId: String, timeRange: Long, numberOfDepartures: Int): Query {
         return Query(
             query =
-                "query { " +
-                        "stopPlace(id: \"$stopPlaceId\") { " +
-                        "id " +
-                        "name " +
-                        "estimatedCalls(timeRange: $timeRange, numberOfDepartures: $numberOfDepartures) { " +
-                        "realtime " +
-                        "aimedArrivalTime " +
-                        "aimedDepartureTime " +
-                        "expectedArrivalTime " +
-                        "expectedDepartureTime " +
-                        "actualArrivalTime " +
-                        "actualDepartureTime " +
-                        "date " +
-                        "forBoarding " +
-                        "forAlighting " +
-                        "destinationDisplay { " +
-                        "frontText " +
-                        "} " +
-                        "quay { " +
-                        "name " +
-                        "description " +
-                        "id " +
-                        "} " +
-                        "serviceJourney { " +
-                        "journeyPattern { " +
-                        "line { " +
-                        "id " +
-                        "name " +
-                        "publicCode " +
-                        "transportMode " +
-                        "authority { " +
-                        "name " +
-                        "} " +
-                        "presentation { " +
-                        "colour " +
-                        "textColour " +
-                        "} " +
-                        "operator { " +
-                        "id " +
-                        "name " +
-                        "} } } } } } }"
+                """
+                query {
+                  quay(id: "$quayId") {
+                    id
+                    name
+                    description
+                    publicCode
+                    estimatedCalls(timeRange: $timeRange, numberOfDepartures: $numberOfDepartures) {
+                      realtime
+                      aimedArrivalTime
+                      aimedDepartureTime
+                      expectedArrivalTime
+                      expectedDepartureTime
+                      actualArrivalTime
+                      actualDepartureTime
+                      date
+                      forBoarding
+                      forAlighting
+                      destinationDisplay {
+                        frontText
+                      }
+                      serviceJourney {
+                        journeyPattern {
+                          line {
+                            id
+                            name
+                            publicCode
+                            transportMode
+                            authority {
+                              name
+                            }
+                            presentation {
+                              colour
+                              textColour
+                            }
+                            operator {
+                              id
+                              name
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+                """.trimIndent()
         )
     }
 }
