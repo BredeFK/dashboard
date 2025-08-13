@@ -6,6 +6,7 @@ import no.fritjof.dashboard.model.WeatherInstance
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Qualifier
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.WebClient
 import java.time.LocalDateTime
@@ -33,6 +34,7 @@ class LocationForecastService(
             .block()
     }
 
+    @Cacheable("weatherForecast", key = "#latitude.toString() + #longitude.toString()")
     fun getWeatherForecast(latitude: Double, longitude: Double): WeatherForecast {
         val properties = getComplete(latitude, longitude)?.properties
         val weatherSeries: List<WeatherInstance>? = properties?.timeSeries?.filter {
