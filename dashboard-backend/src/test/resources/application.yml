@@ -9,7 +9,6 @@ server:
     key-store: mock
     key-store-password: mock
     key-store-type: mock
-    key-alias: mock
 
 app:
   version: 1

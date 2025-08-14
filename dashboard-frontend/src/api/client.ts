@@ -19,7 +19,7 @@ const apiRequest = async <T>(url: string, method: 'GET' | 'POST' | 'PUT' | 'DELE
 };
 
 export const fetchWeatherForcast = async (
-    coordinates: Coordinates = {latitude: 59.913, longitude: 10.738}, // Oslo
+    coordinates: Coordinates = {latitude: 59.9171, longitude: 10.7276}, // Oslo
 ): Promise<WeatherForecastData | null> => {
     try {
         return await apiRequest(

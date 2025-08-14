@@ -1,4 +1,4 @@
-import './Dashboard.css'
+import './Dashboard.css';
 import WeatherForecast from "../weather-forecast/WeatherForecast";
 import StravaLeaderBoard from "../strava-leaderboard/StravaLeaderBoard";
 import DepartureBoard from "../departureboard/DepartureBoard";
@@ -7,75 +7,55 @@ import {Athlete, Coordinates, EnTurDepartureBoard, WeatherForecastData} from "..
 import {fetchPublicTransportDepartureBoard, fetchStravaScoreboard, fetchWeatherForcast} from "../../api/client";
 import {Flex} from "@radix-ui/themes";
 
-
 export default function Dashboard() {
     const [athletes, setAthletes] = React.useState<Athlete[] | null>(null);
     const [weather, setWeather] = React.useState<WeatherForecastData | null>(null);
     const [departureBoard, setDepartureBoard] = React.useState<EnTurDepartureBoard | null>(null);
-    /*
     const [userLocation, setUserLocation] = React.useState<Coordinates | null>(null);
 
-    const getUserLocation = () => {
-        console.log("Getting user location...")
+    // Fetch user location once
+    React.useEffect(() => {
         if (navigator.geolocation) {
-            console.log("Geolocation is supported by this browser.")
             navigator.geolocation.getCurrentPosition(position => {
-                console.log("Got user location:", position.coords)
                 setUserLocation({
                     latitude: position.coords.latitude,
                     longitude: position.coords.longitude
-                })
+                });
             });
         } else {
             console.error("Geolocation is not supported by this browser.");
         }
-    }
+    }, []);
 
-     */
-
-    const places: Coordinates[] = [
-        {latitude: 59.913, longitude: 10.738}, // 0 Oslo
-        {latitude: 60.394, longitude: 5.325}, // 1 Bergen
-        {latitude: 59.807, longitude: 10.021}, // 2 Krokstadelva
-        {latitude: 27.958, longitude: -15.606}, // 3 Gran Canaria
-        {latitude: 63.744, longitude: 11.299}, // 4 Levanger
-        {latitude: 58.969, longitude: 5.731}, // 5 Stavanger
-        {latitude: 59.696, longitude: 10.175}, // 6 Drammen
-        {latitude: 59.941, longitude: 10.829}, // 7 Bjerke
-    ]
-
+    // Fetch Strava and departure board on mount and set intervals
     React.useEffect(() => {
-
         const fetchAthletes = () =>
-            fetchStravaScoreboard().then(data => {
-                if (data) setAthletes(data);
-            });
-
-        const fetchWeather = () =>
-            fetchWeatherForcast().then(data => {
-                if (data) setWeather(data);
-            });
-
+            fetchStravaScoreboard().then(data => data && setAthletes(data));
         const fetchDepartures = () =>
-            fetchPublicTransportDepartureBoard().then(data => {
-                if (data) setDepartureBoard(data);
-            })
+            fetchPublicTransportDepartureBoard().then(data => data && setDepartureBoard(data));
 
         fetchAthletes();
-        fetchWeather();
         fetchDepartures();
 
         const athletesInterval = setInterval(fetchAthletes, 5 * 60_000);
-        const weatherInterval = setInterval(fetchWeather, 5 * 60_000);
         const departuresInterval = setInterval(fetchDepartures, 60_000);
 
         return () => {
             clearInterval(athletesInterval);
-            clearInterval(weatherInterval);
             clearInterval(departuresInterval);
-        }
-
+        };
     }, []);
+
+    // Fetch weather immediately when userLocation changes
+    React.useEffect(() => {
+        const fetchWeather = () =>
+            fetchWeatherForcast(userLocation ?? undefined).then(data => data && setWeather(data));
+
+        fetchWeather();
+        const weatherInterval = setInterval(fetchWeather, 5 * 60_000);
+
+        return () => clearInterval(weatherInterval);
+    }, [userLocation]);
 
     return (
         <div className='dashboard'>

@@ -24,3 +24,4 @@ yarn-error.log*
 
 # Other
 .env
+/certification
