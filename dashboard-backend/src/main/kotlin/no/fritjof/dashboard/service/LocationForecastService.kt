@@ -3,8 +3,6 @@ package no.fritjof.dashboard.service
 import no.fritjof.dashboard.dto.LocationForecastDto
 import no.fritjof.dashboard.model.WeatherForecast
 import no.fritjof.dashboard.model.WeatherInstance
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
@@ -18,8 +16,6 @@ class LocationForecastService(
     @Qualifier("locationForecastWebClient") private val webClient: WebClient,
     private val nominatimService: NominatimService,
 ) {
-
-    private val log: Logger = LoggerFactory.getLogger(javaClass)
 
     private fun getComplete(latitude: Double, longitude: Double): LocationForecastDto? {
         return webClient.get()
@@ -45,29 +41,12 @@ class LocationForecastService(
             WeatherInstance.toWeatherInstance(it, toLocalDateTime(it.time))
         }
 
-        val locationName = getLocationName(latitude, longitude)
-
+        val locationName = nominatimService.getLocationName(latitude, longitude)
         return WeatherForecast(
             lastUpdated = toLocalDateTime(properties?.meta?.updatedAt),
             locationName = locationName,
             weatherSeries = weatherSeries ?: emptyList()
         )
-    }
-
-    private fun getLocationName(latitude: Double, longitude: Double): String {
-        val location = nominatimService.searchCoordinates(latitude, longitude)
-        if (location?.address != null) {
-            val address = location.address
-            val name = listOfNotNull(
-                address.cityDistrict,
-                address.city,
-                address.county
-            ).joinToString(", ")
-            if (name.isNotBlank()) {
-                return name
-            }
-        }
-        return location?.displayName ?: "Ukjent sted"
     }
 
     private fun toLocalDateTime(datetime: String?): LocalDateTime {
@@ -78,6 +57,4 @@ class LocationForecastService(
             .atZoneSameInstant(TimeZone.getTimeZone("ECT").toZoneId())
             .toLocalDateTime()
     }
-
-
 }

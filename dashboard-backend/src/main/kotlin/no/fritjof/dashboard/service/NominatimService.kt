@@ -48,4 +48,32 @@ class NominatimService(
             .block()
     }
 
+    @Cacheable("locationName", key = "#latitude.toString() + #longitude.toString()")
+    fun getLocationName(latitude: Double, longitude: Double): String {
+        val location = searchCoordinates(latitude, longitude)
+        if (location?.address == null) {
+            return location?.displayName ?: "Ukjent sted"
+        }
+
+        val address = location.address
+        val parts = mutableListOf<String>()
+
+        when {
+            !address.cityDistrict.isNullOrBlank() -> parts.add(address.cityDistrict)
+            !address.suburb.isNullOrBlank() -> parts.add(address.suburb)
+            !address.town.isNullOrBlank() -> parts.add(address.town)
+        }
+
+        when {
+            !address.city.isNullOrBlank() -> parts.add(address.city)
+            !address.municipality.isNullOrBlank() -> parts.add(address.municipality)
+            !address.province.isNullOrBlank() -> parts.add(address.province)
+            !address.county.isNullOrBlank() -> parts.add(address.county)
+            !address.country.isBlank() -> parts.add(address.country)
+        }
+
+        return if (parts.isNotEmpty()) parts.joinToString(", ") else "Ukjent sted"
+    }
+
+
 }

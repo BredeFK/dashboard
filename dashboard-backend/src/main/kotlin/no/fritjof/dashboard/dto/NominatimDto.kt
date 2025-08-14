@@ -24,6 +24,10 @@ data class NominatimDto(
 data class AddressDto(
     @JsonProperty("city_district")
     val cityDistrict: String?,
+
+    val town: String?,
+    val suburb: String?,
+    val province: String?,
     val city: String?,
     val municipality: String?,
     val county: String?,
