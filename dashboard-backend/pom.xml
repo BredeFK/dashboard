@@ -122,6 +122,13 @@
                     <include>strava-mock-file.json</include>
                 </includes>
             </resource>
+            <resource>
+                <directory>${basedir}/src/main/resources</directory>
+                <filtering>false</filtering>
+                <includes>
+                    <include>**/*.p12</include>
+                </includes>
+            </resource>
         </resources>
         <plugins>
             <plugin>

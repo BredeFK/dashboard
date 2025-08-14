@@ -1,4 +1,4 @@
-import './Utils.css'
+import './NotFound.css'
 import {Flex, Text} from "@radix-ui/themes";
 
 
@@ -12,7 +12,7 @@ export default function NotFoundPage() {
     );
 }
 
-export function NotFoundText({text}: Readonly<{ text: string }>) {
+export function NotFound({text}: Readonly<{ text: string }>) {
     return (
         <Flex align='center' className='not-found-text'>
             <Text size='7' color='gray'>{text}</Text>

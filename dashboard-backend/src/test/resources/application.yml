@@ -2,8 +2,20 @@ spring:
   application:
     name: dashboard
 
+server:
+  address: 0.0.0.0
+  port: 0
+  ssl:
+    key-store: mock
+    key-store-password: mock
+    key-store-type: mock
+    key-alias: mock
+
 app:
   version: 1
+
+cors:
+  allowed-origin: mock
 
 location-forecast:
   base-url: mock

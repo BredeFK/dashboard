@@ -35,3 +35,4 @@ build/
 ### Other files ###
 example_response.json
 .env
+src/main/resources/*.p12

@@ -2,11 +2,11 @@ import {Athlete} from "../../api/types";
 import React from "react";
 import {Table} from "@radix-ui/themes";
 import './StravaLeaderBoard.css'
-import {NotFoundText} from "../utils/NotFoundText";
+import {NotFound} from "../not-found/NotFound";
 
 export default function StravaLeaderBoard({data}: Readonly<{ data: Athlete[] | null }>) {
     if (!data) {
-        return <NotFoundText text='Klarte ikke å finne toppliste..'/>
+        return <NotFound text='Klarte ikke å finne toppliste..'/>
 
     } else if (data.length === 0) {
         return (

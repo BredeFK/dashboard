@@ -12,6 +12,26 @@ export default function Dashboard() {
     const [athletes, setAthletes] = React.useState<Athlete[] | null>(null);
     const [weather, setWeather] = React.useState<WeatherForecastData | null>(null);
     const [departureBoard, setDepartureBoard] = React.useState<EnTurDepartureBoard | null>(null);
+    /*
+    const [userLocation, setUserLocation] = React.useState<Coordinates | null>(null);
+
+    const getUserLocation = () => {
+        console.log("Getting user location...")
+        if (navigator.geolocation) {
+            console.log("Geolocation is supported by this browser.")
+            navigator.geolocation.getCurrentPosition(position => {
+                console.log("Got user location:", position.coords)
+                setUserLocation({
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude
+                })
+            });
+        } else {
+            console.error("Geolocation is not supported by this browser.");
+        }
+    }
+
+     */
 
     const places: Coordinates[] = [
         {latitude: 59.913, longitude: 10.738}, // 0 Oslo
