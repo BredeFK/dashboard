@@ -13,7 +13,17 @@ export default function Dashboard() {
     const [departureBoard, setDepartureBoard] = React.useState<EnTurDepartureBoard | null>(null);
     const [userLocation, setUserLocation] = React.useState<Coordinates | null>(null);
 
-    // Fetch user location once
+    const places: Coordinates[] = [
+        {latitude: 59.913, longitude: 10.738}, // 0 Oslo
+        {latitude: 60.394, longitude: 5.325}, // 1 Bergen
+        {latitude: 59.807, longitude: 10.021}, // 2 Krokstadelva
+        {latitude: 27.958, longitude: -15.606}, // 3 Gran Canaria
+        {latitude: 63.744, longitude: 11.299}, // 4 Levanger
+        {latitude: 58.969, longitude: 5.731}, // 5 Stavanger
+        {latitude: 59.696, longitude: 10.175}, // 6 Drammen
+        {latitude: 59.941, longitude: 10.829}, // 7 Bjerke
+    ]
+
     React.useEffect(() => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(position => {
@@ -27,7 +37,6 @@ export default function Dashboard() {
         }
     }, []);
 
-    // Fetch Strava and departure board on mount and set intervals
     React.useEffect(() => {
         const fetchAthletes = () =>
             fetchStravaScoreboard().then(data => data && setAthletes(data));
@@ -46,7 +55,6 @@ export default function Dashboard() {
         };
     }, []);
 
-    // Fetch weather immediately when userLocation changes
     React.useEffect(() => {
         const fetchWeather = () =>
             fetchWeatherForcast(userLocation ?? undefined).then(data => data && setWeather(data));
