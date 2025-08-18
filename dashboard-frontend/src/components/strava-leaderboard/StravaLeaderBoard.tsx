@@ -33,7 +33,7 @@ export default function StravaLeaderBoard({data}: Readonly<{ data: Athlete[] | n
                                     )))
                                 : (
                                     <Table.Row>
-                                        <Table.Cell colSpan={7} className='empty-row'>
+                                        <Table.Cell colSpan={headers.length} className='empty-row'>
                                             <Text color='gray' size='3'>Ingen resultater enda 🫥</Text>
                                         </Table.Cell>
                                     </Table.Row>

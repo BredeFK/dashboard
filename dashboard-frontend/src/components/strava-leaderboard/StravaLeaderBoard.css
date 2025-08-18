@@ -45,9 +45,10 @@
     font-size: 18px;
 }
 
-.empty-row {
+.leaderboard-table .empty-row {
     text-align: center;
     font-style: italic;
     color: var(--gray-10);
     font-size: 16px;
+    padding: 1rem;
 }

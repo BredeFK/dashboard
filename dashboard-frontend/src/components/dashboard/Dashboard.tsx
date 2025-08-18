@@ -39,7 +39,7 @@ export default function Dashboard() {
 
     React.useEffect(() => {
         const fetchAthletes = () =>
-            fetchStravaLeaderboard(true).then(data => data && setAthletes(data));
+            fetchStravaLeaderboard().then(data => data && setAthletes(data));
         const fetchDepartures = () =>
             fetchPublicTransportDepartureBoard().then(data => data && setDepartureBoard(data));
 
