@@ -32,11 +32,11 @@ export const fetchWeatherForcast = async (
     }
 }
 
-export const fetchStravaScoreboard = async (mock: boolean = false): Promise<Athlete[] | null> => {
+export const fetchStravaLeaderboard = async (mock: boolean = false): Promise<Athlete[] | null> => {
     try {
-        return await apiRequest(`/api/strava/scoreboard?mock=${mock}`, 'GET');
+        return await apiRequest(`/api/strava/leaderboard/now?mock=${mock}`, 'GET');
     } catch (error) {
-        console.error('Failed to fetch Strava scoreboard from backend', error);
+        console.error('Failed to fetch Strava leaderboard from backend', error);
         return null;
     }
 }

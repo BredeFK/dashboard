@@ -21,9 +21,9 @@ class StravaController(
     private val stravaService: StravaService
 ) {
 
-    @GetMapping("scoreboard", produces = [MediaType.APPLICATION_JSON_VALUE])
+    @GetMapping("leaderboard/now", produces = [MediaType.APPLICATION_JSON_VALUE])
     @Operation(
-        summary = "Get club scoreboard for this week",
+        summary = "Get current club leaderboard for this week",
         description = "Get athletes from club in a sorted list by longest total distance",
     )
     @ApiResponse(
@@ -40,7 +40,31 @@ class StravaController(
             )
         ]
     )
-    fun scoreboard(mock: Boolean = false): ResponseEntity<List<Athlete>?> {
-        return ResponseEntity.ok(stravaService.getScoreBoard(mock))
+    fun leaderboardForThisWeek(mock: Boolean = false): ResponseEntity<List<Athlete>?> {
+        return ResponseEntity.ok(stravaService.getLeaderBoardForThisWeek(mock))
     }
+
+    @GetMapping("leaderboard/last-week", produces = [MediaType.APPLICATION_JSON_VALUE])
+    @Operation(
+        summary = "Get club leaderboard for last week",
+        description = "Get athletes from club in a sorted list by longest total distance",
+    )
+    @ApiResponse(
+        responseCode = "200",
+        description = "List of athletes",
+        content = [
+            Content(
+                mediaType = "application/json",
+                array = ArraySchema(
+                    schema = Schema(
+                        implementation = Athlete::class
+                    )
+                )
+            )
+        ]
+    )
+    fun getLeaderboardForLastWeek(): ResponseEntity<List<Athlete>> {
+        return ResponseEntity.ok(stravaService.getLeaderboardForLastWeek())
+    }
+
 }

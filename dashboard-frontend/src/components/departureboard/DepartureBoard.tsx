@@ -15,10 +15,8 @@ export default function DepartureBoard({data, numberOfDepartures}: Readonly<{
     }
 
     return (
-
         <>
             <ModuleTitle titleText={data.name} subTitleText={data.description} align='center'/>
-
             <Flex direction='column' gap='2' align='center' className='estimated-call-list'>
                 {data.estimatedCalls
                     .slice(0, numberOfDepartures)

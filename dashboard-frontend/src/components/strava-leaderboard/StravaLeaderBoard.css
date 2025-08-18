@@ -1,6 +1,40 @@
 .leaderboard-table {
     width: 100%;
-    height: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    overflow-y: auto;
+}
+
+.leaderboard-table th:first-child,
+.leaderboard-table td:first-child {
+    width: 4ch;
+}
+
+.leaderboard-table th:nth-child(2),
+.leaderboard-table td:nth-child(2) {
+    width: 15ch;
+}
+
+.leaderboard-table th,
+.leaderboard-table td {
+    padding: 0.5rem 0.75rem;
+    text-align: left;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.leaderboard-container {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    width: 100%;
+    overflow: auto;
+}
+
+.leaderboard-table tr {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
 }
 
 .unit-text {

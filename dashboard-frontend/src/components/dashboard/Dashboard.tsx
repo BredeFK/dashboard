@@ -4,7 +4,7 @@ import StravaLeaderBoard from "../strava-leaderboard/StravaLeaderBoard";
 import DepartureBoard from "../departureboard/DepartureBoard";
 import React from "react";
 import {Athlete, Coordinates, EnTurDepartureBoard, WeatherForecastData} from "../../api/types";
-import {fetchPublicTransportDepartureBoard, fetchStravaScoreboard, fetchWeatherForcast} from "../../api/client";
+import {fetchPublicTransportDepartureBoard, fetchStravaLeaderboard, fetchWeatherForcast} from "../../api/client";
 import {Flex} from "@radix-ui/themes";
 
 export default function Dashboard() {
@@ -28,8 +28,8 @@ export default function Dashboard() {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(position => {
                 setUserLocation({
-                    latitude: position.coords.latitude,
-                    longitude: position.coords.longitude
+                    latitude: parseFloat(position.coords.latitude.toFixed(3)),
+                    longitude: parseFloat(position.coords.longitude.toFixed(3))
                 });
             });
         } else {
@@ -39,7 +39,7 @@ export default function Dashboard() {
 
     React.useEffect(() => {
         const fetchAthletes = () =>
-            fetchStravaScoreboard().then(data => data && setAthletes(data));
+            fetchStravaLeaderboard(true).then(data => data && setAthletes(data));
         const fetchDepartures = () =>
             fetchPublicTransportDepartureBoard().then(data => data && setDepartureBoard(data));
 

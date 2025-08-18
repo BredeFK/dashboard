@@ -1,41 +1,51 @@
 import {Athlete} from "../../api/types";
 import React from "react";
-import {Table, Text} from "@radix-ui/themes";
+import {Flex, Table, Text} from "@radix-ui/themes";
 import './StravaLeaderBoard.css'
 import {NotFound} from "../not-found/NotFound";
+import ModuleTitle from "../ui/module-title/ModuleTitle";
+
+
+const headers = [null, 'Utøver', 'Distanse', 'Økter', 'Lengste', 'Snittfart', 'HøydeM.']
 
 export default function StravaLeaderBoard({data}: Readonly<{ data: Athlete[] | null }>) {
     if (!data) {
         return <NotFound text='Klarte ikke å finne toppliste..'/>
     } else {
-        const headers = [null, 'Utøver', 'Distanse', 'Økter', 'Lengste', 'Snittfart', 'HøydeM.']
+
         return (
-            <Table.Root size='3' variant={'surface'} className='leaderboard-table'>
-                <Table.Header>
-                    <Table.Row>
-                        {headers.map(header =>
-                            <Table.ColumnHeaderCell key={header}>
-                                <Text size='4'>{header}</Text>
-                            </Table.ColumnHeaderCell>)}
-                    </Table.Row>
-                </Table.Header>
-                <Table.Body>
-                    {data.length > 0 ? (
-                            data.map((athlete, index) => (
-                                <AthleteItem athlete={athlete} rank={index + 1} key={athlete.fullName}/>
-                            )))
-                        : (
+            <Flex direction='column' gap='2' align='stretch' style={{height: '100%'}}>
+                <ModuleTitle titleText='Strava toppliste' subTitleText='For uke 15' align='start'/>
+                <Flex direction='column' gap='2' className='leaderboard-container'>
+                    <Table.Root size='3' variant='surface' className='leaderboard-table'>
+                        <Table.Header>
                             <Table.Row>
-                                <Table.Cell colSpan={7} className='empty-row'>
-                                    <Text color='gray' size='3'>Ingen resultater enda 🫥</Text>
-                                </Table.Cell>
+                                {headers.map(header =>
+                                    <Table.ColumnHeaderCell key={header}>
+                                        <Text size='4'>{header}</Text>
+                                    </Table.ColumnHeaderCell>)}
                             </Table.Row>
-                        )}
-                </Table.Body>
-            </Table.Root>
+                        </Table.Header>
+                        <Table.Body>
+                            {data.length > 0 ? (
+                                    data.map((athlete, index) => (
+                                        <AthleteItem athlete={athlete} rank={index + 1} key={athlete.fullName}/>
+                                    )))
+                                : (
+                                    <Table.Row>
+                                        <Table.Cell colSpan={7} className='empty-row'>
+                                            <Text color='gray' size='3'>Ingen resultater enda 🫥</Text>
+                                        </Table.Cell>
+                                    </Table.Row>
+                                )}
+                        </Table.Body>
+                    </Table.Root>
+                </Flex>
+            </Flex>
         )
     }
 }
+
 
 function AthleteItem({athlete, rank}: Readonly<{ athlete: Athlete, rank: number }>) {
     return (
@@ -46,7 +56,8 @@ function AthleteItem({athlete, rank}: Readonly<{ athlete: Athlete, rank: number 
             <Table.Cell>{athlete.numberOfActivities}</Table.Cell>
             <Table.Cell>{formatDistance(athlete.longestActivityFormatted)}</Table.Cell>
             <Table.Cell>{formatDistance(athlete.averagePacePrKm)}</Table.Cell>
-            <Table.Cell><b>{athlete.elevationGain}</b> <span className='unit-text'>m</span></Table.Cell>
+            <Table.Cell><b>{formatElevationGain(athlete.elevationGain)}</b> <span
+                className='unit-text'>m</span></Table.Cell>
         </Table.Row>
     )
 }
@@ -61,6 +72,10 @@ const formatDistance = (distance: string) => {
             <b>{value}</b> <span className='unit-text'>{unit}</span>
         </>
     )
+}
+
+const formatElevationGain = (elevationGain: number) => {
+    return Intl.NumberFormat('nb-NO').format(elevationGain)
 }
 
 

@@ -35,7 +35,7 @@ class StravaService(
     private val logger: Logger = LoggerFactory.getLogger(javaClass)
 
     @Cacheable("athletes", unless = "#mock == true")
-    fun getScoreBoard(mock: Boolean): List<Athlete> {
+    fun getLeaderBoardForThisWeek(mock: Boolean): List<Athlete> {
         if (mock) return mockAthletes()
 
         val thisMonday = getThisWeeksMondayUTC()
@@ -56,7 +56,7 @@ class StravaService(
         return gson.fromJson(json, Array<Athlete>::class.java).toList()
     }
 
-    fun getLastWeeksScoreBoard(): List<Athlete> {
+    fun getLeaderboardForLastWeek(): List<Athlete> {
         val (monday, sunday) = getLastMondayAndSundayUTC()
 
         val activitiesAfterLastWeeksMonday = getClubActivities(after = monday)

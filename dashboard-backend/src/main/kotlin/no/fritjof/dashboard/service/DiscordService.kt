@@ -20,16 +20,16 @@ class DiscordService(
 
     private val logger: Logger = LoggerFactory.getLogger(javaClass)
 
-    fun postScoreBoard() {
-        val scoreboard = stravaService.getLastWeeksScoreBoard()
-        val message = formatMessage(scoreboard)
-        logger.info("Posting scoreboard to Discord")
+    fun postLeaderboard() {
+        val leaderboard = stravaService.getLeaderboardForLastWeek()
+        val message = formatMessage(leaderboard)
+        logger.info("Posting leaderboard to Discord")
         webClient.post()
             .bodyValue(message)
             .retrieve()
             .toBodilessEntity()
-            .doOnError { logger.error("Error during posting scoreboard to Discord : $${it.message}", it.cause) }
-            .doOnSuccess { logger.info("Successfully Posted scoreboard to Discord at ${LocalDateTime.now()}") }
+            .doOnError { logger.error("Error during posting leaderboard to Discord : $${it.message}", it.cause) }
+            .doOnSuccess { logger.info("Successfully Posted leaderboard to Discord at ${LocalDateTime.now()}") }
             .block()
     }
 
