@@ -21,6 +21,10 @@
     padding-top: 0.2rem;
     padding-inline: 1rem;
     margin: 1rem 1rem 1rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
 }
 
 .leaderboard {

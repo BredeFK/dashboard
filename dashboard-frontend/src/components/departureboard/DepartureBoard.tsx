@@ -3,6 +3,7 @@ import './DepartureBoard.css'
 import React from "react";
 import {Card, Flex, Text} from '@radix-ui/themes'
 import {NotFound} from "../not-found/NotFound";
+import ModuleTitle from "../ui/module-title/ModuleTitle";
 
 export default function DepartureBoard({data, numberOfDepartures}: Readonly<{
     data: EnTurDepartureBoard | null,
@@ -12,14 +13,12 @@ export default function DepartureBoard({data, numberOfDepartures}: Readonly<{
         return <NotFound text='Klarte ikke å finne avganger..'/>
 
     }
+
     return (
-        <div>
-            <Flex direction='column' align='center' className='departure-board-header'>
-                <Text size='8'>{data.name}</Text>
-                {data.description &&
-                    <Text size='4' color='gray'>{data.description}</Text>
-                }
-            </Flex>
+
+        <>
+            <ModuleTitle titleText={data.name} subTitleText={data.description} align='center'/>
+
             <Flex direction='column' gap='2' align='center' className='estimated-call-list'>
                 {data.estimatedCalls
                     .slice(0, numberOfDepartures)
@@ -29,7 +28,8 @@ export default function DepartureBoard({data, numberOfDepartures}: Readonly<{
                         <EstimatedCallItem estimatedCall={item} key={`${item.frontText}-${item.aimedDepartureTime}`}/>
                     ))}
             </Flex>
-        </div>
+        </>
+
     )
 }
 

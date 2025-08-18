@@ -92,7 +92,7 @@ class DiscordService(
             16335172, 15954476, 16291358, 16352330, 16369487,
             9485933, 4434571, 5083278, 5731728, 2588065
         )
-        val week = LocalDate.now().get(WeekFields.ISO.weekOfWeekBasedYear())
+        val week = LocalDate.now()[WeekFields.ISO.weekOfWeekBasedYear()]
         return coolors[(week - 1) % coolors.size]
     }
 }

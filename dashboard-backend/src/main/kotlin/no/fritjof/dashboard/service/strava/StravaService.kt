@@ -62,9 +62,8 @@ class StravaService(
         val activitiesAfterLastWeeksMonday = getClubActivities(after = monday)
         val activitiesAfterLastWeeksSunday = getClubActivities(after = sunday)
 
-        if (activitiesAfterLastWeeksMonday == null || activitiesAfterLastWeeksSunday == null) {
-            throw IllegalStateException("Something went wrong with getting activities from last week")
-        }
+        checkNotNull(activitiesAfterLastWeeksMonday) { "Could not get activities after last week's Monday" }
+        checkNotNull(activitiesAfterLastWeeksSunday) { "Could not get activities after last week's Sunday" }
 
         val lastWeeksActivities = activitiesAfterLastWeeksMonday.filter { activity ->
             activity !in activitiesAfterLastWeeksSunday

@@ -1,35 +1,36 @@
 import {Athlete} from "../../api/types";
 import React from "react";
-import {Table} from "@radix-ui/themes";
+import {Table, Text} from "@radix-ui/themes";
 import './StravaLeaderBoard.css'
 import {NotFound} from "../not-found/NotFound";
 
 export default function StravaLeaderBoard({data}: Readonly<{ data: Athlete[] | null }>) {
     if (!data) {
         return <NotFound text='Klarte ikke å finne toppliste..'/>
-
-    } else if (data.length === 0) {
-        return (
-            <div>
-                <p>Ingen aktiviteter i Strava...</p>
-            </div>
-        )
     } else {
         const headers = [null, 'Utøver', 'Distanse', 'Økter', 'Lengste', 'Snittfart', 'HøydeM.']
         return (
             <Table.Root size='3' variant={'surface'} className='leaderboard-table'>
                 <Table.Header>
-                    <Table.Row className='athlete-header'>
+                    <Table.Row>
                         {headers.map(header =>
-                            <Table.ColumnHeaderCell key={header} className='leaderboard-header'>
-                                {header}
+                            <Table.ColumnHeaderCell key={header}>
+                                <Text size='4'>{header}</Text>
                             </Table.ColumnHeaderCell>)}
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {data.map((athlete, index) => (
-                        <AthleteItem athlete={athlete} rank={index + 1} key={athlete.fullName}/>
-                    ))}
+                    {data.length > 0 ? (
+                            data.map((athlete, index) => (
+                                <AthleteItem athlete={athlete} rank={index + 1} key={athlete.fullName}/>
+                            )))
+                        : (
+                            <Table.Row>
+                                <Table.Cell colSpan={7} className='empty-row'>
+                                    <Text color='gray' size='3'>Ingen resultater enda 🫥</Text>
+                                </Table.Cell>
+                            </Table.Row>
+                        )}
                 </Table.Body>
             </Table.Root>
         )

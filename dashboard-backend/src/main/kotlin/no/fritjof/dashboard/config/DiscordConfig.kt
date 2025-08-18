@@ -1,7 +1,6 @@
 package no.fritjof.dashboard.config
 
 import no.fritjof.dashboard.service.DiscordService
-import no.fritjof.dashboard.service.strava.StravaService
 import org.springframework.context.annotation.Configuration
 import org.springframework.scheduling.annotation.EnableScheduling
 import org.springframework.scheduling.annotation.Scheduled

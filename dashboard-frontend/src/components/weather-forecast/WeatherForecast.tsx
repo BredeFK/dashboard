@@ -3,6 +3,7 @@ import React from "react";
 import {Card, Flex, Text} from "@radix-ui/themes";
 import './WeatherForecast.css'
 import {NotFound} from "../not-found/NotFound";
+import ModuleTitle from "../ui/module-title/ModuleTitle";
 
 export default function WeatherForecast({data, numberOfHours}: Readonly<{
     data: WeatherForecastData | null,
@@ -12,14 +13,11 @@ export default function WeatherForecast({data, numberOfHours}: Readonly<{
         return <NotFound text='Klarte ikke å finne værmeldingen..'/>
 
     }
+
     const lastUpdated = formatTime(data.lastUpdated)
     return (
         <div>
-            <Flex className='location-title' direction='column'>
-                <Text size='6' weight='bold'>{data.locationName}</Text>
-                <Text size='1'>Oppdatert: {lastUpdated} </Text>
-            </Flex>
-
+            <ModuleTitle titleText={data.locationName} subTitleText={`Oppdatert: ${lastUpdated}`} align='start'/>
             <Flex gap="3" align="center">
                 {data.weatherSeries.slice(0, numberOfHours).map((item) => (
                     <WeatherItem item={item} key={item.timestamp}/>
