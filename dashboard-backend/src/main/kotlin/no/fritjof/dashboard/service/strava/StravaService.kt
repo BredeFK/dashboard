@@ -3,6 +3,7 @@ package no.fritjof.dashboard.service.strava
 import com.google.gson.Gson
 import no.fritjof.dashboard.dto.StravaActivityDto
 import no.fritjof.dashboard.model.Athlete
+import no.fritjof.dashboard.model.Leaderboard
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Qualifier
@@ -35,28 +36,20 @@ class StravaService(
     private val logger: Logger = LoggerFactory.getLogger(javaClass)
 
     @Cacheable("athletes", unless = "#mock == true")
-    fun getLeaderBoardForThisWeek(mock: Boolean): List<Athlete> {
+    fun getLeaderBoardForThisWeek(mock: Boolean): Leaderboard {
         if (mock) return mockAthletes()
 
         val thisMonday = getThisWeeksMondayUTC()
         val activities = getClubActivities(after = thisMonday)
 
-        return convertActivitiesToListOfAthletes(activities)
+        return Leaderboard(
+            startDate = thisMonday.toLocalDateTime(),
+            endDate = thisMonday.plusDays(7).toLocalDateTime().minusMinutes(1),
+            athletes = convertActivitiesToListOfAthletes(activities)
+        )
     }
 
-    private fun mockAthletes(): List<Athlete> {
-        val gson = Gson()
-        logger.info("Returning mock leaderboard")
-
-        val resourceStream = Thread.currentThread().contextClassLoader
-            .getResourceAsStream("strava-mock-file.json")
-            ?: throw RuntimeException("Mock file not found on classpath")
-
-        val json = resourceStream.bufferedReader(StandardCharsets.UTF_8).use { it.readText() }
-        return gson.fromJson(json, Array<Athlete>::class.java).toList()
-    }
-
-    fun getLeaderboardForLastWeek(): List<Athlete> {
+    fun getLeaderboardForLastWeek(): Leaderboard {
         val (monday, sunday) = getLastMondayAndSundayUTC()
 
         val activitiesAfterLastWeeksMonday = getClubActivities(after = monday)
@@ -69,7 +62,27 @@ class StravaService(
             activity !in activitiesAfterLastWeeksSunday
         }
 
-        return convertActivitiesToListOfAthletes(lastWeeksActivities)
+        return Leaderboard(
+            startDate = monday.toLocalDateTime(),
+            endDate = sunday.toLocalDateTime(),
+            athletes = convertActivitiesToListOfAthletes(lastWeeksActivities)
+        )
+    }
+
+    private fun mockAthletes(): Leaderboard {
+        val gson = Gson()
+        logger.info("Returning mock leaderboard")
+
+        val resourceStream = Thread.currentThread().contextClassLoader
+            .getResourceAsStream("strava-mock-file.json")
+            ?: throw RuntimeException("Mock file not found on classpath")
+
+        val json = resourceStream.bufferedReader(StandardCharsets.UTF_8).use { it.readText() }
+        return Leaderboard(
+            startDate = LocalDateTime.of(1997, 12, 29, 0, 0),
+            endDate = LocalDateTime.of(1998, 1, 4, 23, 59),
+            athletes = gson.fromJson(json, Array<Athlete>::class.java).toList()
+        )
     }
 
     private fun getAuthToken(): String {
@@ -145,20 +158,10 @@ class StravaService(
     }
 
     private fun getLastMondayAndSundayUTC(): Pair<ZonedDateTime, ZonedDateTime> {
-        val now = ZonedDateTime.now(ZoneOffset.UTC)
+        val thisMonday = getThisWeeksMondayUTC()
+        val lastMonday = thisMonday.minusWeeks(1)
 
-        val lastMonday = now
-            .with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))
-            .minusWeeks(1)
-            .truncatedTo(ChronoUnit.DAYS)
-
-        val lastSunday = lastMonday
-            .plusDays(6)
-            .withHour(23)
-            .withMinute(59)
-            .withSecond(59)
-
-        return Pair(lastMonday, lastSunday)
+        return Pair(lastMonday, lastMonday.plusDays(7).minusMinutes(1))
     }
 
 

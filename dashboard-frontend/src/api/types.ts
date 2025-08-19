@@ -16,6 +16,12 @@ export interface WeatherForecastData {
     weatherSeries: WeatherInstance[];
 }
 
+export interface Leaderboard {
+    athletes: Athlete[];
+    startDate: string;
+    endDate: string;
+}
+
 export interface Athlete {
     fullName: string;
     movingTime: number;

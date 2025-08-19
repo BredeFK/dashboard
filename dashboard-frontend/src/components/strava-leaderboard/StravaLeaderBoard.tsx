@@ -1,4 +1,4 @@
-import {Athlete} from "../../api/types";
+import {Athlete, Leaderboard} from "../../api/types";
 import React from "react";
 import {Flex, Table, Text} from "@radix-ui/themes";
 import './StravaLeaderBoard.css'
@@ -8,14 +8,16 @@ import ModuleTitle from "../ui/module-title/ModuleTitle";
 
 const headers = [null, 'Utøver', 'Distanse', 'Økter', 'Lengste', 'Snittfart', 'HøydeM.']
 
-export default function StravaLeaderBoard({data}: Readonly<{ data: Athlete[] | null }>) {
+export default function StravaLeaderBoard({data}: Readonly<{ data: Leaderboard | null }>) {
     if (!data) {
         return <NotFound text='Klarte ikke å finne toppliste..'/>
     } else {
 
+        const timeRange = formatDateRange(data.startDate, data.endDate)
+
         return (
             <Flex direction='column' gap='2' align='stretch' style={{height: '100%'}}>
-                <ModuleTitle titleText='Strava toppliste' subTitleText='For uke 15' align='start'/>
+                <ModuleTitle titleText='Strava toppliste' subTitleText={timeRange} align='start'/>
                 <Flex direction='column' gap='2' className='leaderboard-container'>
                     <Table.Root size='3' variant='surface' className='leaderboard-table'>
                         <Table.Header>
@@ -27,8 +29,8 @@ export default function StravaLeaderBoard({data}: Readonly<{ data: Athlete[] | n
                             </Table.Row>
                         </Table.Header>
                         <Table.Body>
-                            {data.length > 0 ? (
-                                    data.map((athlete, index) => (
+                            {data.athletes.length > 0 ? (
+                                    data.athletes.map((athlete, index) => (
                                         <AthleteItem athlete={athlete} rank={index + 1} key={athlete.fullName}/>
                                     )))
                                 : (
@@ -76,6 +78,22 @@ const formatDistance = (distance: string) => {
 
 const formatElevationGain = (elevationGain: number) => {
     return Intl.NumberFormat('nb-NO').format(elevationGain)
+}
+
+function formatDateRange(startDate: string, endDate: string): string {
+    let start = formatDate(startDate)
+    const end = formatDate(endDate)
+    if (start.split(' ')[1] === end.split(' ')[1]) {
+        start = start.split(' ')[0]
+    }
+    return `${start} - ${end}`
+}
+
+function formatDate(date: string): string {
+    return new Date(date).toLocaleDateString("nb-NO", {
+        day: 'numeric',
+        month: 'short'
+    }).replace(/\.$/, "")
 }
 
 

@@ -22,7 +22,7 @@ class DiscordService(
 
     fun postLeaderboard() {
         val leaderboard = stravaService.getLeaderboardForLastWeek()
-        val message = formatMessage(leaderboard)
+        val message = formatMessage(leaderboard.athletes)
         logger.info("Posting leaderboard to Discord")
         webClient.post()
             .bodyValue(message)

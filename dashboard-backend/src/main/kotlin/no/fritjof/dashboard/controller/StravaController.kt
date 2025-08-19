@@ -1,12 +1,11 @@
 package no.fritjof.dashboard.controller
 
 import io.swagger.v3.oas.annotations.Operation
-import io.swagger.v3.oas.annotations.media.ArraySchema
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.tags.Tag
-import no.fritjof.dashboard.model.Athlete
+import no.fritjof.dashboard.model.Leaderboard
 import no.fritjof.dashboard.service.strava.StravaService
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -24,46 +23,38 @@ class StravaController(
     @GetMapping("leaderboard/now", produces = [MediaType.APPLICATION_JSON_VALUE])
     @Operation(
         summary = "Get current club leaderboard for this week",
-        description = "Get athletes from club in a sorted list by longest total distance",
+        description = "Get leaderboard containing athletes from club in a sorted list by longest total distance",
     )
     @ApiResponse(
         responseCode = "200",
-        description = "List of athletes",
+        description = "Leaderboard with list of athletes and time range",
         content = [
             Content(
                 mediaType = "application/json",
-                array = ArraySchema(
-                    schema = Schema(
-                        implementation = Athlete::class
-                    )
-                )
+                schema = Schema(implementation = Leaderboard::class)
             )
         ]
     )
-    fun leaderboardForThisWeek(mock: Boolean = false): ResponseEntity<List<Athlete>?> {
+    fun leaderboardForThisWeek(mock: Boolean = false): ResponseEntity<Leaderboard?> {
         return ResponseEntity.ok(stravaService.getLeaderBoardForThisWeek(mock))
     }
 
     @GetMapping("leaderboard/last-week", produces = [MediaType.APPLICATION_JSON_VALUE])
     @Operation(
         summary = "Get club leaderboard for last week",
-        description = "Get athletes from club in a sorted list by longest total distance",
+        description = "Get leaderboard containing athletes from club in a sorted list by longest total distance",
     )
     @ApiResponse(
         responseCode = "200",
-        description = "List of athletes",
+        description = "Leaderboard with list of athletes and time range",
         content = [
             Content(
                 mediaType = "application/json",
-                array = ArraySchema(
-                    schema = Schema(
-                        implementation = Athlete::class
-                    )
-                )
+                schema = Schema(implementation = Leaderboard::class)
             )
         ]
     )
-    fun getLeaderboardForLastWeek(): ResponseEntity<List<Athlete>> {
+    fun getLeaderboardForLastWeek(): ResponseEntity<Leaderboard> {
         return ResponseEntity.ok(stravaService.getLeaderboardForLastWeek())
     }
 

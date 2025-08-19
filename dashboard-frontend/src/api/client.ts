@@ -1,5 +1,5 @@
 import axios, {AxiosResponse} from 'axios';
-import {Athlete, Coordinates, EnTurDepartureBoard, WeatherForecastData} from "./types";
+import {Coordinates, EnTurDepartureBoard, Leaderboard, WeatherForecastData} from "./types";
 
 const apiClient = axios.create({
     baseURL: process.env.REACT_APP_BACKEND_BASE_URL || 'http://localhost:8080',
@@ -19,7 +19,7 @@ const apiRequest = async <T>(url: string, method: 'GET' | 'POST' | 'PUT' | 'DELE
 };
 
 export const fetchWeatherForcast = async (
-    coordinates: Coordinates = {latitude: 59.9171, longitude: 10.7276}, // Oslo
+    coordinates: Coordinates = {latitude: 59.9171, longitude: 10.7276} // Oslo
 ): Promise<WeatherForecastData | null> => {
     try {
         return await apiRequest(
@@ -32,7 +32,7 @@ export const fetchWeatherForcast = async (
     }
 }
 
-export const fetchStravaLeaderboard = async (mock: boolean = false): Promise<Athlete[] | null> => {
+export const fetchStravaLeaderboard = async (mock: boolean = false): Promise<Leaderboard | null> => {
     try {
         return await apiRequest(`/api/strava/leaderboard/now?mock=${mock}`, 'GET');
     } catch (error) {

@@ -3,12 +3,12 @@ import WeatherForecast from "../weather-forecast/WeatherForecast";
 import StravaLeaderBoard from "../strava-leaderboard/StravaLeaderBoard";
 import DepartureBoard from "../departureboard/DepartureBoard";
 import React from "react";
-import {Athlete, Coordinates, EnTurDepartureBoard, WeatherForecastData} from "../../api/types";
+import {Coordinates, EnTurDepartureBoard, Leaderboard, WeatherForecastData} from "../../api/types";
 import {fetchPublicTransportDepartureBoard, fetchStravaLeaderboard, fetchWeatherForcast} from "../../api/client";
 import {Flex} from "@radix-ui/themes";
 
 export default function Dashboard() {
-    const [athletes, setAthletes] = React.useState<Athlete[] | null>(null);
+    const [leaderboard, setLeaderboard] = React.useState<Leaderboard | null>(null);
     const [weather, setWeather] = React.useState<WeatherForecastData | null>(null);
     const [departureBoard, setDepartureBoard] = React.useState<EnTurDepartureBoard | null>(null);
     const [userLocation, setUserLocation] = React.useState<Coordinates | null>(null);
@@ -39,7 +39,7 @@ export default function Dashboard() {
 
     React.useEffect(() => {
         const fetchAthletes = () =>
-            fetchStravaLeaderboard().then(data => data && setAthletes(data));
+            fetchStravaLeaderboard().then(data => data && setLeaderboard(data));
         const fetchDepartures = () =>
             fetchPublicTransportDepartureBoard().then(data => data && setDepartureBoard(data));
 
@@ -74,7 +74,7 @@ export default function Dashboard() {
                 <DepartureBoard data={departureBoard} numberOfDepartures={6}/>
             </Flex>
             <Flex className='module leaderboard' align='center'>
-                <StravaLeaderBoard data={athletes}/>
+                <StravaLeaderBoard data={leaderboard}/>
             </Flex>
         </div>
     )
