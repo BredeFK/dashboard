@@ -13,7 +13,7 @@ const accentColors: Readonly<AccentColor[]> = [
     'indigo', 'blue', 'cyan', 'teal', 'jade', 'green', 'grass', 'lime', 'mint', 'sky'
 ];
 const color: string | null = new URLSearchParams(window.location.search).get('color');
-let accentColor: AccentColor = (color && accentColors.includes(color as AccentColor))
+const accentColor: AccentColor = (color && accentColors.includes(color as AccentColor))
     ? color as AccentColor
     : 'sky';
 

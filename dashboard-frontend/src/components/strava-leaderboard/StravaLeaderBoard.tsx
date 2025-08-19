@@ -65,13 +65,13 @@ function AthleteItem({athlete, rank}: Readonly<{ athlete: Athlete, rank: number 
 }
 
 const formatDistance = (distance: string) => {
-    let [value, unit] = distance.split(' ');
-    if (!value.includes(':')) {
-        value = parseFloat(value).toFixed(1);
-    }
+    const [value, unit] = distance.split(' ');
     return (
         <>
-            <b>{value}</b> <span className='unit-text'>{unit}</span>
+            <b>{value.includes(':')
+                ? value
+                : parseFloat(value).toFixed(1)
+            }</b> <span className='unit-text'>{unit}</span>
         </>
     )
 }

@@ -8,7 +8,7 @@ const apiClient = axios.create({
     }
 });
 
-const apiRequest = async <T>(url: string, method: 'GET' | 'POST' | 'PUT' | 'DELETE', data?: any): Promise<T> => {
+const apiRequest = async <T>(url: string, method: 'GET' | 'POST' | 'PUT' | 'DELETE', data?: string): Promise<T> => {
     const response: AxiosResponse<T> = await apiClient({
         method,
         url,
