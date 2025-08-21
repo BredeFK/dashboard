@@ -12,6 +12,7 @@ export default function Dashboard() {
     const [weather, setWeather] = React.useState<WeatherForecastData | null>(null);
     const [departureBoard, setDepartureBoard] = React.useState<EnTurDepartureBoard | null>(null);
     const [userLocation, setUserLocation] = React.useState<Coordinates | null>(null);
+    const stravaLeaderBoardIsMocked = process.env.REACT_APP_STRAVA_LEADERBOARD_MOCKED === 'true';
 
     React.useEffect(() => {
         if (navigator.geolocation) {
@@ -28,7 +29,7 @@ export default function Dashboard() {
 
     React.useEffect(() => {
         const fetchAthletes = () =>
-            fetchStravaLeaderboard(true).then(data => data && setLeaderboard(data));
+            fetchStravaLeaderboard(stravaLeaderBoardIsMocked).then(data => data && setLeaderboard(data));
         const fetchDepartures = () =>
             fetchPublicTransportDepartureBoard().then(data => data && setDepartureBoard(data));
 

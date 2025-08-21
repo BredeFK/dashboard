@@ -2,10 +2,11 @@ import axios, {AxiosResponse} from 'axios';
 import {Coordinates, EnTurDepartureBoard, Leaderboard, WeatherForecastData} from "./types";
 
 const apiClient = axios.create({
-    baseURL: process.env.REACT_APP_BACKEND_BASE_URL || 'http://localhost:8080',
+    baseURL: process.env.REACT_APP_BACKEND_BASE_URL || '',
     headers: {
         'Content-Type': 'application/json',
-    }
+    },
+    timeout: 10000, // 10 seconds
 });
 
 const apiRequest = async <T>(url: string, method: 'GET' | 'POST' | 'PUT' | 'DELETE', data?: string): Promise<T> => {

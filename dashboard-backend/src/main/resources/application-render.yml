@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: dashboard
+
+server:
+  address: 0.0.0.0
+  port: ${PORT:8080}
+  forward-headers-strategy: framework
+
+app:
+  version: '@project.version@'
+
+cors:
+  allowed-origin: ${FRONTEND_ALLOWED_ORIGIN}
+
+location-forecast:
+  base-url: https://api.met.no/weatherapi/locationforecast/2.0
+  user-agent: ${spring.application.name}/${app.version} github.com/BredeFK/dashboard
+
+nominatim:
+  base-url: https://nominatim.openstreetmap.org
+
+strava:
+  base-url: https://www.strava.com/api/v3
+  club-id: 1248911
+  client-id: ${STRAVA_CLIENT_ID}
+  client-secret: ${STRAVA_CLIENT_SECRET}
+  refresh-token: ${STRAVA_REFRESH_TOKEN}
+
+discord:
+  base-url: https://discord.com/api/webhooks
+  webhook-url-path: ${DISCORD_WEBHOOK_URL_PATH}
+
+en-tur:
+  base-url: https://api.entur.io/journey-planner/v3/graphql
+  et-client-name: fritjof-${spring.application.name}
