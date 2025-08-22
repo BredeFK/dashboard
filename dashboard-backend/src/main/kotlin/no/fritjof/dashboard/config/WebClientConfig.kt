@@ -5,8 +5,9 @@ import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.http.HttpHeaders
-import org.springframework.http.MediaType
+import org.springframework.http.HttpHeaders.CONTENT_TYPE
+import org.springframework.http.HttpHeaders.USER_AGENT
+import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
 import org.springframework.web.reactive.function.client.ExchangeFilterFunction
 import org.springframework.web.reactive.function.client.WebClient
 import reactor.core.publisher.Mono
@@ -32,7 +33,7 @@ class WebClientConfig(
             .filter(requestLoggerFilter())
             .filter(responseLoggerFilter())
             .baseUrl(locationForecastBaseUrl)
-            .defaultHeader(HttpHeaders.USER_AGENT, userAgent)
+            .defaultHeader(USER_AGENT, userAgent)
             .build()
     }
 
@@ -42,6 +43,7 @@ class WebClientConfig(
             .filter(requestLoggerFilter())
             .filter(responseLoggerFilter())
             .baseUrl(nominatimUrl)
+            .defaultHeader(USER_AGENT, userAgent)
             .build()
     }
 
@@ -57,7 +59,7 @@ class WebClientConfig(
     @Bean
     fun discordWebClient(): WebClient {
         return WebClient.builder()
-            .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+            .defaultHeader(CONTENT_TYPE, APPLICATION_JSON_VALUE)
             .filter(requestLoggerFilter())
             .filter(responseLoggerFilter())
             .baseUrl("$discordUrl/$discordWebhookPath")
@@ -70,7 +72,7 @@ class WebClientConfig(
             .filter(requestLoggerFilter())
             .filter(responseLoggerFilter())
             .baseUrl(enTurBaseUrl)
-            .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+            .defaultHeader(CONTENT_TYPE, APPLICATION_JSON_VALUE)
             .defaultHeader(enTurHeaderName, enTurClientName)
             .build()
     }
