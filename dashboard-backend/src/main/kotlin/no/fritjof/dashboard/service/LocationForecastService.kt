@@ -3,6 +3,8 @@ package no.fritjof.dashboard.service
 import no.fritjof.dashboard.dto.LocationForecastDto
 import no.fritjof.dashboard.model.WeatherForecast
 import no.fritjof.dashboard.model.WeatherInstance
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
@@ -16,6 +18,8 @@ class LocationForecastService(
     @Qualifier("locationForecastWebClient") private val webClient: WebClient,
     private val nominatimService: NominatimService,
 ) {
+
+    val log: Logger = LoggerFactory.getLogger(javaClass)
 
     private fun getComplete(latitude: Double, longitude: Double): LocationForecastDto? {
         return webClient.get()
@@ -41,7 +45,13 @@ class LocationForecastService(
             WeatherInstance.toWeatherInstance(it, toLocalDateTime(it.time))
         }
 
-        val locationName = nominatimService.getLocationName(latitude, longitude)
+        var locationName = "Ukjent sted"
+        try {
+            locationName = nominatimService.getLocationName(latitude, longitude)
+        } catch (ex: Exception) {
+            log.error("Could not get name from coordinates: $latitude,$longitude", ex)
+        }
+
         return WeatherForecast(
             lastUpdated = toLocalDateTime(properties?.meta?.updatedAt),
             locationName = locationName,

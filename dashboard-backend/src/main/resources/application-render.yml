@@ -19,6 +19,7 @@ location-forecast:
 
 nominatim:
   base-url: https://nominatim.openstreetmap.org
+  user-agent: ${spring.application.name}/${app.version} (+mailto:${PROJECT_EMAIL}
 
 strava:
   base-url: https://www.strava.com/api/v3
