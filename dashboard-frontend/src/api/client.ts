@@ -6,7 +6,7 @@ const apiClient = axios.create({
     headers: {
         'Content-Type': 'application/json',
     },
-    timeout: 10000, // 10 seconds
+    timeout: 600000, // 60 seconds
 });
 
 const apiRequest = async <T>(url: string, method: 'GET' | 'POST' | 'PUT' | 'DELETE', data?: string): Promise<T> => {
