@@ -21,7 +21,7 @@ class EnTurService(
     private val boundaryCircleRadius = 1
     private val size = 10
     private val layers = "address,locality"
-    private val categories = listOf("tettsted", "attraction", "tettbebyggelse", "street")
+    private val categories = listOf("tettsted", "attraction", "tettbebyggelse", "street") // In prioritized order
 
     @Cacheable("departureBoard", key = "#quayId + #timeRange + #numberOfDepartures")
     fun getDepartureBoard(

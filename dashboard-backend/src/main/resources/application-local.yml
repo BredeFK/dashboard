@@ -20,10 +20,6 @@ location-forecast:
   base-url: https://api.met.no/weatherapi/locationforecast/2.0
   user-agent: ${spring.application.name}/${app.version} github.com/BredeFK/dashboard
 
-nominatim:
-  base-url: https://nominatim.openstreetmap.org
-  user-agent: ${spring.application.name}/${app.version} (+mailto:${PROJECT_EMAIL}
-
 strava:
   base-url: https://www.strava.com/api/v3
   club-id: 1248911

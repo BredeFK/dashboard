@@ -20,10 +20,6 @@ location-forecast:
   base-url: mock
   user-agent: mock
 
-nominatim:
-  base-url: mock
-  user-agent: mock
-
 strava:
   base-url: mock
   club-id: 0

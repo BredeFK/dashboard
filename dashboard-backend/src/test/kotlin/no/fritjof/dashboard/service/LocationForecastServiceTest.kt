@@ -18,21 +18,6 @@ class LocationForecastServiceTest {
           Coordinates(latitude = 59.941, longitude = 10.829, "Bjerke, Oslo"),   //  Bjerke
       )
 
-      val temp = mutableMapOf<String, NominatimDto>()
-
-      for (place in places) {
-          val location = nominatimService.searchCoordinates(place.latitude, place.longitude)
-          val locationName = nominatimService.getLocationName(place.latitude, place.longitude, location)
-          if (location != null)
-              temp["$locationName -> ${place.name}"] = location
-      }
-
-      temp.forEach { (locationName, location) ->
-          println(
-              "$locationName\n\n$location"
-          )
-      }
-
        */
 
 }

@@ -16,12 +16,15 @@ A Kotlin-based Spring Boot dashboard application using various API's to be displ
 - Kotlin 2.2.0
 - Spring Boot 3.5.3
 - Java 21
+-
 
 ### API used
 
-- YR / MET Weather API : https://api.met.no/weatherapi/locationforecast/2.0/documentation
-- Nominatim API : https://nominatim.openstreetmap.org/ui/about.html
-- Strava API : https://developers.strava.com/
+- YR / MET Weather API: https://api.met.no/weatherapi/locationforecast/2.0/documentation
+- EnTur APIs:
+    - Journey Planner v3: https://developer.entur.org/pages-journeyplanner-journeyplanner
+    - Geocoder: https://developer.entur.org/pages-geocoder-api
+- Strava API: https://developers.strava.com/
 - Discord Webhooks: https://discord.com/developers/docs/resources/webhook
 
 ---
@@ -36,14 +39,11 @@ A Kotlin-based Spring Boot dashboard application using various API's to be displ
 ### Build and Run
 
 #### .env Example
-```properties
-STRAVA_CLIENT_ID=some-id
-STRAVA_CLIENT_SECRET=some-secret
-STRAVA_REFRESH_TOKEN=valid-unexpired-refresh-token
-DISCORD_WEBHOOK_URL_PATH=some-webhook-url
-```
+
+See examples in both `dashboard-backend` and `dashboard-frontend` folders
 
 #### Terminal
+
 ```bash
 mvn clean install
 export $(cat .env | xargs)
