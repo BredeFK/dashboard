@@ -4,14 +4,20 @@ import React from "react";
 import {Card, Flex, Text} from '@radix-ui/themes'
 import {NotFound} from "../not-found/NotFound";
 import ModuleTitle from "../ui/module-title/ModuleTitle";
+import Loading from "../loading/Loading";
 
-export default function DepartureBoard({data, numberOfDepartures}: Readonly<{
+export default function DepartureBoard({data, numberOfDepartures, loading}: Readonly<{
     data: EnTurDepartureBoard | null,
-    numberOfDepartures: number
+    numberOfDepartures: number,
+    loading: boolean
 }>) {
-    if (!data) {
-        return <NotFound text='Klarte ikke å finne avganger..'/>
 
+    if (loading) {
+        return <Loading text='Laster avganger'/>
+    }
+
+    if (!data) {
+        return <NotFound text='Klarte ikke å finne avganger...'/>
     }
 
     return (

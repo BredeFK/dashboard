@@ -4,14 +4,20 @@ import {Card, Flex, Text} from "@radix-ui/themes";
 import './WeatherForecast.css'
 import {NotFound} from "../not-found/NotFound";
 import ModuleTitle from "../ui/module-title/ModuleTitle";
+import Loading from "../loading/Loading";
 
-export default function WeatherForecast({data, numberOfHours}: Readonly<{
+export default function WeatherForecast({data, numberOfHours, loading}: Readonly<{
     data: WeatherForecastData | null,
-    numberOfHours: number
+    numberOfHours: number,
+    loading: boolean
 }>) {
-    if (!data) {
-        return <NotFound text='Klarte ikke å finne værmeldingen..'/>
 
+    if (loading) {
+        return <Loading text='Laster værmeldingen'/>
+    }
+
+    if (!data) {
+        return <NotFound text='Klarte ikke å finne værmeldingen...'/>
     }
 
     const lastUpdated = formatTime(data.lastUpdated)

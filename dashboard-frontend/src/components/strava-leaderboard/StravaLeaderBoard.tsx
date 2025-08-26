@@ -4,48 +4,56 @@ import {Flex, Table, Text} from "@radix-ui/themes";
 import './StravaLeaderBoard.css'
 import {NotFound} from "../not-found/NotFound";
 import ModuleTitle from "../ui/module-title/ModuleTitle";
+import Loading from "../loading/Loading";
 
 
 const headers = [null, 'Utøver', 'Distanse', 'Økter', 'Lengste', 'Snittfart', 'HøydeM.']
 
-export default function StravaLeaderBoard({data}: Readonly<{ data: Leaderboard | null }>) {
-    if (!data) {
-        return <NotFound text='Klarte ikke å finne toppliste..'/>
-    } else {
+export default function StravaLeaderBoard({data, loading}: Readonly<{
+    data: Leaderboard | null,
+    loading: boolean
+}>) {
 
-        const timeRange = formatDateRange(data.startDate, data.endDate)
-
-        return (
-            <Flex direction='column' gap='2' align='stretch' style={{height: '100%'}}>
-                <ModuleTitle titleText='Strava toppliste' subTitleText={timeRange} align='start'/>
-                <Flex direction='column' gap='2' className='leaderboard-container'>
-                    <Table.Root size='3' variant='surface' className='leaderboard-table'>
-                        <Table.Header>
-                            <Table.Row>
-                                {headers.map(header =>
-                                    <Table.ColumnHeaderCell key={header}>
-                                        <Text size='4'>{header}</Text>
-                                    </Table.ColumnHeaderCell>)}
-                            </Table.Row>
-                        </Table.Header>
-                        <Table.Body>
-                            {data.athletes.length > 0 ? (
-                                    data.athletes.map((athlete, index) => (
-                                        <AthleteItem athlete={athlete} rank={index + 1} key={athlete.fullName}/>
-                                    )))
-                                : (
-                                    <Table.Row>
-                                        <Table.Cell colSpan={headers.length} className='empty-row'>
-                                            <Text color='gray' size='3'>Ingen resultater enda 🫥</Text>
-                                        </Table.Cell>
-                                    </Table.Row>
-                                )}
-                        </Table.Body>
-                    </Table.Root>
-                </Flex>
-            </Flex>
-        )
+    if (loading) {
+        return <Loading text='Laster toppliste'/>
     }
+
+    if (!data) {
+        return <NotFound text='Klarte ikke å finne toppliste...'/>
+    }
+
+    const timeRange = formatDateRange(data.startDate, data.endDate)
+
+    return (
+        <Flex direction='column' gap='2' align='stretch' style={{height: '100%'}}>
+            <ModuleTitle titleText='Strava toppliste' subTitleText={timeRange} align='start'/>
+            <Flex direction='column' gap='2' className='leaderboard-container'>
+                <Table.Root size='3' variant='surface' className='leaderboard-table'>
+                    <Table.Header>
+                        <Table.Row>
+                            {headers.map(header =>
+                                <Table.ColumnHeaderCell key={header}>
+                                    <Text size='4'>{header}</Text>
+                                </Table.ColumnHeaderCell>)}
+                        </Table.Row>
+                    </Table.Header>
+                    <Table.Body>
+                        {data.athletes.length > 0 ? (
+                                data.athletes.map((athlete, index) => (
+                                    <AthleteItem athlete={athlete} rank={index + 1} key={athlete.fullName}/>
+                                )))
+                            : (
+                                <Table.Row>
+                                    <Table.Cell colSpan={headers.length} className='empty-row'>
+                                        <Text color='gray' size='3'>Ingen resultater enda 🫥</Text>
+                                    </Table.Cell>
+                                </Table.Row>
+                            )}
+                    </Table.Body>
+                </Table.Root>
+            </Flex>
+        </Flex>
+    )
 }
 
 
