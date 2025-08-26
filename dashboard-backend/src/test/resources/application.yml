@@ -22,6 +22,7 @@ location-forecast:
 
 nominatim:
   base-url: mock
+  user-agent: mock
 
 strava:
   base-url: mock
@@ -36,4 +37,6 @@ discord:
 
 en-tur:
   base-url: mock
+  journey-planner-path: /
+  geocoder-path: /
   et-client-name: mock

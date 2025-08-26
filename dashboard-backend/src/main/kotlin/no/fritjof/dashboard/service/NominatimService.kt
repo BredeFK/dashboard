@@ -32,7 +32,6 @@ class NominatimService(
         }
     }
 
-    @Cacheable("locations", key = "#latitude.toString() + #longitude.toString()")
     fun searchCoordinates(latitude: Double, longitude: Double): NominatimDto? {
         return webClient.get()
             .uri {

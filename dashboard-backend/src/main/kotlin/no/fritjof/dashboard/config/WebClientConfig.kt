@@ -23,7 +23,7 @@ class WebClientConfig(
     @Value($$"${discord.base-url}") private val discordUrl: String,
     @Value($$"${discord.webhook-url-path}") private val discordWebhookPath: String,
     @Value($$"${en-tur.base-url}") private val enTurBaseUrl: String,
-    @Value($$"${en-tur.et-client-name}") private val enTurClientName: String,
+    @Value($$"${en-tur.et-client-name}") private val enTurClientName: String
 ) {
 
     private val log: Logger = LoggerFactory.getLogger(javaClass)

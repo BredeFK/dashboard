@@ -3,6 +3,7 @@ package no.fritjof.dashboard.service
 import no.fritjof.dashboard.dto.LocationForecastDto
 import no.fritjof.dashboard.model.WeatherForecast
 import no.fritjof.dashboard.model.WeatherInstance
+import no.fritjof.dashboard.service.entur.EnTurService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Qualifier
@@ -16,10 +17,20 @@ import java.util.TimeZone
 @Service
 class LocationForecastService(
     @Qualifier("locationForecastWebClient") private val webClient: WebClient,
-    private val nominatimService: NominatimService,
+    private val enTurService: EnTurService,
 ) {
 
     val log: Logger = LoggerFactory.getLogger(javaClass)
+
+    /* TODO : Uncomment for debugging or remove when done
+    val places = listOf(
+        Coordinates(latitude = 60.394, longitude = 5.325, name = "Bergen"),
+        Coordinates(latitude = 59.757, 10.009, name = "Krokstadelva, Drammen"),
+        Coordinates(latitude = 59.71941056890567, 10.144987193522217, "Konnerud, Drammen"),
+        Coordinates(latitude = 59.942649978565186, 10.812822652854248, "Bjerke, Oslo"),
+        Coordinates(latitude = 59.910465672466046, 10.765861538473102, "Iterate"),
+    )
+     */
 
     private fun getComplete(latitude: Double, longitude: Double): LocationForecastDto? {
         return webClient.get()
@@ -45,9 +56,22 @@ class LocationForecastService(
             WeatherInstance.toWeatherInstance(it, toLocalDateTime(it.time))
         }
 
-        var locationName = "Ukjent sted"
+        /* TODO : Uncomment for debugging or remove when done
+        val temp = mutableMapOf<Coordinates, String>()
+        for (place in places) {
+            temp[place] = enTurService.searchCoordinates(place.latitude, place.longitude)
+        }
+
+        println()
+        temp.forEach { (place, locationName) ->
+            println("${place.name} -> $locationName")
+        }
+        println()
+         */
+
+        var locationName = "Ukjent plass"
         try {
-            locationName = nominatimService.getLocationName(latitude, longitude)
+            locationName = enTurService.searchCoordinates(latitude, longitude)
         } catch (ex: Exception) {
             log.error("Could not get name from coordinates: $latitude,$longitude", ex)
         }

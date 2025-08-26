@@ -2,11 +2,6 @@ package no.fritjof.dashboard.service
 
 class LocationForecastServiceTest {
     /*
-      data class Coordinates(
-          val latitude: Double,
-          val longitude: Double,
-          val name: String,
-      )
 
       val places = listOf(
           Coordinates(latitude = 60.394, longitude = 5.325, name = "Bergenhus, Bergen"),   // 0 Bergen

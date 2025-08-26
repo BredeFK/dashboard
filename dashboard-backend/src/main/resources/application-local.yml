@@ -36,5 +36,7 @@ discord:
   webhook-url-path: ${DISCORD_WEBHOOK_URL_PATH}
 
 en-tur:
-  base-url: https://api.entur.io/journey-planner/v3/graphql
+  base-url: https://api.entur.io
+  journey-planner-path: /journey-planner/v3/graphql
+  geocoder-path: /geocoder/v1/reverse
   et-client-name: fritjof-${spring.application.name}
