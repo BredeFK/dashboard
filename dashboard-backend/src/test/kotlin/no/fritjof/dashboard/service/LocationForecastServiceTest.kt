@@ -2,11 +2,6 @@ package no.fritjof.dashboard.service
 
 class LocationForecastServiceTest {
     /*
-      data class Coordinates(
-          val latitude: Double,
-          val longitude: Double,
-          val name: String,
-      )
 
       val places = listOf(
           Coordinates(latitude = 60.394, longitude = 5.325, name = "Bergenhus, Bergen"),   // 0 Bergen
@@ -22,21 +17,6 @@ class LocationForecastServiceTest {
           Coordinates(latitude = 59.696, longitude = 10.175, "Konnerud, Drammen"),   // 6 Drammen
           Coordinates(latitude = 59.941, longitude = 10.829, "Bjerke, Oslo"),   //  Bjerke
       )
-
-      val temp = mutableMapOf<String, NominatimDto>()
-
-      for (place in places) {
-          val location = nominatimService.searchCoordinates(place.latitude, place.longitude)
-          val locationName = nominatimService.getLocationName(place.latitude, place.longitude, location)
-          if (location != null)
-              temp["$locationName -> ${place.name}"] = location
-      }
-
-      temp.forEach { (locationName, location) ->
-          println(
-              "$locationName\n\n$location"
-          )
-      }
 
        */
 

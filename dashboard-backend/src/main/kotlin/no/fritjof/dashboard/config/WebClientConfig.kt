@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpHeaders.CONTENT_TYPE
-import org.springframework.http.HttpHeaders.REFERER
 import org.springframework.http.HttpHeaders.USER_AGENT
 import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
 import org.springframework.web.reactive.function.client.ExchangeFilterFunction
@@ -17,13 +16,11 @@ import reactor.core.publisher.Mono
 class WebClientConfig(
     @Value($$"${location-forecast.base-url}") private val locationForecastBaseUrl: String,
     @Value($$"${location-forecast.user-agent}") private val userAgent: String,
-    @Value($$"${nominatim.base-url}") private val nominatimUrl: String,
-    @Value($$"${nominatim.user-agent}") private val nominatimUserAgent: String,
     @Value($$"${strava.base-url}") private val stravaUrl: String,
     @Value($$"${discord.base-url}") private val discordUrl: String,
     @Value($$"${discord.webhook-url-path}") private val discordWebhookPath: String,
     @Value($$"${en-tur.base-url}") private val enTurBaseUrl: String,
-    @Value($$"${en-tur.et-client-name}") private val enTurClientName: String,
+    @Value($$"${en-tur.et-client-name}") private val enTurClientName: String
 ) {
 
     private val log: Logger = LoggerFactory.getLogger(javaClass)
@@ -36,17 +33,6 @@ class WebClientConfig(
             .filter(responseLoggerFilter())
             .baseUrl(locationForecastBaseUrl)
             .defaultHeader(USER_AGENT, userAgent)
-            .build()
-    }
-
-    @Bean
-    fun nominatimWebClient(): WebClient {
-        return WebClient.builder()
-            .filter(requestLoggerFilter())
-            .filter(responseLoggerFilter())
-            .baseUrl(nominatimUrl)
-            .defaultHeader(USER_AGENT, nominatimUserAgent)
-            .defaultHeader(REFERER, "https://dashbord.uk")
             .build()
     }
 

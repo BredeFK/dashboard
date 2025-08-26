@@ -20,9 +20,6 @@ location-forecast:
   base-url: mock
   user-agent: mock
 
-nominatim:
-  base-url: mock
-
 strava:
   base-url: mock
   club-id: 0
@@ -36,4 +33,6 @@ discord:
 
 en-tur:
   base-url: mock
+  journey-planner-path: /
+  geocoder-path: /
   et-client-name: mock
