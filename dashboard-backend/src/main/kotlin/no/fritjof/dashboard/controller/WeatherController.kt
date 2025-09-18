@@ -37,8 +37,8 @@ class WeatherController(
     )
     @ApiResponse(responseCode = "200", description = "Compact information")
     fun immediateWeatherForcast(
-        latitude: Double = 59.910276, // TODO : Remove
-        longitude: Double = 10.76577 // TODO : Remove
+        latitude: Double,
+        longitude: Double
     ): ResponseEntity<ImmediateWeatherForecast> {
         val response = weatherApiService.getImmediateWeatherForecast(latitude, longitude)
         return ResponseEntity.ok(response)
