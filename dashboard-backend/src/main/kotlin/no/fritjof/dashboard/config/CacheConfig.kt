@@ -27,6 +27,11 @@ class CacheConfig {
             .expireAfterWrite(295, TimeUnit.SECONDS)
             .buildAsync<Any, Any>()
 
+        val immediateWeatherForecastCache = Caffeine.newBuilder()
+            .maximumSize(200)
+            .expireAfterWrite(295, TimeUnit.SECONDS)
+            .buildAsync<Any, Any>()
+
         val departureBoardCache = Caffeine.newBuilder()
             .maximumSize(100)
             .expireAfterWrite(55, TimeUnit.SECONDS)

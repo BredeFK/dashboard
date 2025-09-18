@@ -14,8 +14,8 @@ import reactor.core.publisher.Mono
 
 @Configuration
 class WebClientConfig(
-    @Value($$"${location-forecast.base-url}") private val locationForecastBaseUrl: String,
-    @Value($$"${location-forecast.user-agent}") private val userAgent: String,
+    @Value($$"${weather-api.base-url}") private val locationForecastBaseUrl: String,
+    @Value($$"${weather-api.user-agent}") private val userAgent: String,
     @Value($$"${strava.base-url}") private val stravaUrl: String,
     @Value($$"${discord.base-url}") private val discordUrl: String,
     @Value($$"${discord.webhook-url-path}") private val discordWebhookPath: String,
@@ -27,7 +27,7 @@ class WebClientConfig(
     private val enTurHeaderName = "ET-Client-Name"
 
     @Bean
-    fun locationForecastWebClient(): WebClient {
+    fun weatherApiClient(): WebClient {
         return WebClient.builder()
             .filter(requestLoggerFilter())
             .filter(responseLoggerFilter())

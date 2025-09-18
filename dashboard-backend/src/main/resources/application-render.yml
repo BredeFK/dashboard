@@ -13,8 +13,10 @@ app:
 cors:
   allowed-origin: ${FRONTEND_ALLOWED_ORIGIN}
 
-location-forecast:
-  base-url: https://api.met.no/weatherapi/locationforecast/2.0
+weather-api:
+  base-url: https://api.met.no/weatherapi
+  forcast-path: /locationforecast/2.0
+  nowcast-path: /nowcast/2.0
   user-agent: ${spring.application.name}/${app.version} github.com/BredeFK/dashboard
 
 strava:

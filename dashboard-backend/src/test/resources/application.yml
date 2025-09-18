@@ -16,8 +16,10 @@ app:
 cors:
   allowed-origin: mock
 
-location-forecast:
+weather-api:
   base-url: mock
+  forcast-path: mock
+  nowcast-path: mock
   user-agent: mock
 
 strava:

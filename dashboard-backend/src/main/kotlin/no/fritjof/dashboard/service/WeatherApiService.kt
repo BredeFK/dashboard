@@ -1,22 +1,25 @@
 package no.fritjof.dashboard.service
 
 import no.fritjof.dashboard.dto.LocationForecastDto
+import no.fritjof.dashboard.model.ImmediateWeatherForecast
 import no.fritjof.dashboard.model.WeatherForecast
 import no.fritjof.dashboard.model.WeatherInstance
 import no.fritjof.dashboard.service.entur.EnTurService
+import no.fritjof.dashboard.util.DateUtil.toLocalDateTime
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Qualifier
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.WebClient
 import java.time.LocalDateTime
-import java.time.OffsetDateTime
-import java.util.TimeZone
 
 @Service
-class LocationForecastService(
-    @Qualifier("locationForecastWebClient") private val webClient: WebClient,
+class WeatherApiService(
+    @Qualifier("weatherApiClient") private val webClient: WebClient,
+    @Value($$"${weather-api.forcast-path}") private val forecastPath: String,
+    @Value($$"${weather-api.nowcast-path}") private val nowcastPath: String,
     private val enTurService: EnTurService,
 ) {
 
@@ -35,7 +38,8 @@ class LocationForecastService(
     private fun getComplete(latitude: Double, longitude: Double): LocationForecastDto? {
         return webClient.get()
             .uri {
-                it.path("/complete")
+                it.path(forecastPath)
+                    .path("/complete")
                     .queryParam("lat", latitude)
                     .queryParam("lon", longitude)
                     .build()
@@ -43,6 +47,30 @@ class LocationForecastService(
             .retrieve()
             .bodyToMono(LocationForecastDto::class.java)
             .block()
+    }
+
+    private fun getNowcast(latitude: Double, longitude: Double): LocationForecastDto? {
+        return webClient.get()
+            .uri {
+                it.path(nowcastPath)
+                    .path("/complete")
+                    .queryParam("lat", latitude)
+                    .queryParam("lon", longitude)
+                    .build()
+            }
+            .retrieve()
+            .bodyToMono(LocationForecastDto::class.java)
+            .block()
+    }
+
+    @Cacheable("immediateWeatherForecastCache", key = "#latitude.toString() + #longitude.toString()")
+    fun getImmediateWeatherForecast(latitude: Double, longitude: Double): ImmediateWeatherForecast? {
+        val forecast = getNowcast(latitude, longitude)
+        if (forecast == null) {
+            log.error("Could not get immediate weather forecast for: $latitude,$longitude")
+            return null
+        }
+        return ImmediateWeatherForecast.toDto(forecast)
     }
 
     @Cacheable("weatherForecast", key = "#latitude.toString() + #longitude.toString()")
@@ -81,14 +109,5 @@ class LocationForecastService(
             locationName = locationName,
             weatherSeries = weatherSeries ?: emptyList()
         )
-    }
-
-    private fun toLocalDateTime(datetime: String?): LocalDateTime {
-        if (datetime == null) {
-            throw NullPointerException("datetime is null")
-        }
-        return OffsetDateTime.parse(datetime)
-            .atZoneSameInstant(TimeZone.getTimeZone("ECT").toZoneId())
-            .toLocalDateTime()
     }
 }

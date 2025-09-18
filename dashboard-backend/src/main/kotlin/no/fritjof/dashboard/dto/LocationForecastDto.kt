@@ -15,7 +15,10 @@ data class PropertiesDto(
 
 data class MetaDto(
     @JsonProperty("updated_at")
-    val updatedAt: String
+    val updatedAt: String,
+
+    @JsonProperty("radar_coverage")
+    val radarCoverage: String?
 )
 
 data class TimeInstanceDto(
@@ -42,10 +45,13 @@ data class SummaryDto(
 
 data class NextHoursDetailsDto(
     @JsonProperty("precipitation_amount_min")
-    val precipitationAmountMin: Double,
+    val precipitationAmountMin: Double?,
 
     @JsonProperty("precipitation_amount_max")
-    val precipitationAmountMax: Double,
+    val precipitationAmountMax: Double?,
+
+    @JsonProperty("precipitation_amount")
+    val precipitationAmount: Double?
 )
 
 data class InstantDto(
@@ -55,24 +61,33 @@ data class InstantDto(
 data class DetailsDto(
 
     @JsonProperty("air_pressure_at_sea_level")
-    val airPressureAtSeaLevel: Double,
+    val airPressureAtSeaLevel: Double?,
 
     @JsonProperty("air_temperature")
-    val airTemperature: Double,
+    val airTemperature: Double?,
 
     @JsonProperty("cloud_area_fraction")
-    val cloudAreaFraction: Double,
+    val cloudAreaFraction: Double?,
 
     @JsonProperty("relative_humidity")
-    val relativeHumidity: Double,
+    val relativeHumidity: Double?,
 
     @JsonProperty("wind_from_direction")
-    val windFromDirection: Double,
+    val windFromDirection: Double?,
 
     @JsonProperty("wind_speed")
-    val windSpeed: Double,
+    val windSpeed: Double?,
+
+    @JsonProperty("wind_speed_of_gust")
+    val windSpeedOfGust: Double?,
 
     @JsonProperty("ultraviolet_index_clear_sky")
-    val uvIndexClearSky: Double
+    val uvIndexClearSky: Double?,
+
+    @JsonProperty("precipitation_rate")
+    val precipitationRate: Double?,
+
+    @JsonProperty("precipitation_amount")
+    val precipitationAmount: Double?
 
 )
